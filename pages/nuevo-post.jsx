@@ -1,12 +1,10 @@
-
-import styles from '../styles/Home.module.css'
 import Layout from '../components/layout/Layout';
 
-export default function Home() {
+export default function NuevoPost() {
   return (
     <>
       <Layout>
-        
+        <h1>Nuevo post</h1>
       </Layout>
     </>
   )
