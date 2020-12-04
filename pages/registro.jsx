@@ -1,24 +1,42 @@
+import React, { useEffect } from 'react';
 import styles from '../styles/Formulario.module.css';
 import Layout from '../components/layout/Layout';
 import Link from 'next/link';
 import useValidacion from '../hooks/useValidacion';
 import validarRegistro from '../validation/validarRegistro';
-import { makeStyles } from '@material-ui/core/styles';
+import firebase from '../firebase/index';
+import { useState } from 'react';
+import Swal from 'sweetalert2';
 
-
-export default function Registro() {
-
-
+export default function Registro() {  
+  //state local
+  const [errorAuth, setErrorAuth]=useState(false);
+  useEffect(()=>{
+    if(errorAuth){
+      Swal.fire({
+        title: 'Error!',
+        text: 'Hubo error en la autenticación',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+    }
+  },[errorAuth]);
   const STATE_INICIAL={
     nombre:'',
     apellido:'',
     email:'',
     password:''
   }
-  const registrarUsuario=()=>{
-    console.log(valores);
-    console.log('registrando usuario');
+  
+  const registrarUsuario=async ()=>{
+    try {
+      await firebase.registrar(nombre, apellido,email,password);
+      setErrorAuth(false);
+    } catch (error) {      
+      setErrorAuth(true);
+    }
   }
+  
   const {
     errores,
     valores,
@@ -26,6 +44,7 @@ export default function Registro() {
     handleChange,
     handleSubmit,
   }=useValidacion(STATE_INICIAL,validarRegistro,registrarUsuario);
+  const {email, password, nombre, apellido}=valores;
 
   return (
     <>
@@ -84,6 +103,7 @@ export default function Registro() {
                   <a className={styles.enlace}>¿Ya tienes una cuenta?</a>
               </Link>
           </form>
+          
         </div>
       </Layout>
     </>

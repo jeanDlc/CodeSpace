@@ -1,10 +1,34 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import MenuMovil from './MenuMovil';
-import Link from 'next/link'
-const Navbar = () => {    
+import Link from 'next/link';
+import firebase,{FirebaseContext} from '../../firebase/index';
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      '& > *': {
+        margin: theme.spacing(0),
+        color:'white',
+        backgroundColor:'transparent',
+        fontSize:'1.2rem',
+        margin:'0'
+      },
+      '& button:hover': {
+        background: "rgb(253, 91, 91)",
+      }
+    },
+  }));
+
+
+const Navbar = () => {
+    const classes = useStyles();
+
+    const {usuario}=useContext(FirebaseContext);
+
     return ( 
         <nav className="navbar">
             <CssBaseline />
@@ -35,24 +59,37 @@ const Navbar = () => {
                             &#x2315;
                         </div>
                     </div>                    
-                    <div className="menuDeEscritorio">                        
+                    <div className="menuDeEscritorio">  
                         <Link href="/creadores">
                             <a>Creadores</a>
                         </Link>
-                        <Link href="/nuevo-post">
-                            <a>&#x271a; Post</a>
-                        </Link>
-                        <Link href="/login">
-                            <a>Login</a>
-                        </Link>
-                        <Link href="/registro">
-                            <a>Registrarme</a>
-                        </Link>
-                        <a href="#">Mi Perfil</a>
-                        <a href="#">Cerrar sesión</a>
+                        {usuario? (
+                            <>
+                                <Link href="/nuevo-post">
+                                    <a>&#x271a; Post</a>
+                                </Link>
+                                <a href="#">Mi Perfil</a>                                
+                                <div className={classes.root}>                                    
+                                    <Button variant="contained"
+                                        onClick={()=>firebase.cerrarSesion()}
+                                    >
+                                        Cerrar sesión
+                                    </Button>
+                                </div>
+                            </>
+                        ):
+                            <>
+                                <Link href="/login">
+                                    <a>Login</a>
+                                </Link>
+                                <Link href="/registro">
+                                    <a>Registrarme</a>
+                                </Link>
+                            </>
+                        }
                     </div>                    
                 </div>
-                <MenuMovil/>   
+                <MenuMovil/>
             </Container>
                
             <style jsx>{`
@@ -120,7 +157,7 @@ const Navbar = () => {
                     .menuDeEscritorio{
                         display:flex;
                         justify-content:space-between;
-                        flex-basis: calc(60% - 1rem);
+                        flex-basis: calc(50% - 1rem);
                     }
                     .tituloDeEscritorio{
                         display:block;

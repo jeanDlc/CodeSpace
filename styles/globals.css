@@ -57,3 +57,6 @@ input{
 .text-center{
   text-align: center;
 }
+.swal2-popup {
+  font-size: 1.6rem !important;
+}

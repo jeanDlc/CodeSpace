@@ -3,13 +3,39 @@ import Layout from '../components/layout/Layout';
 import Link from 'next/link';
 import useValidacion from '../hooks/useValidacion';
 import validarLogin from '../validation/validarLogin';
+import firebase from '../firebase/index';
+import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 export default function Login() {
+  //state local
+  const [errorLogin, setErrorLogin]=useState(false);
+
+  //muestra errores de logeo
+  useEffect(()=>{
+    if(errorLogin){
+      Swal.fire({
+        title: 'Error!',
+        text: 'No se pudo iniciar sesión',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+    }
+  },[errorLogin]);
+
   const STATE_INICIAL={
     email:'',
     password:''
   }
-  const logearUsuario=()=>{
-    console.log('logeando');
+
+  //logear al ususario
+  const logearUsuario=async()=>{
+    try {
+      const usuario=await firebase.login(email, password);
+      console.log(usuario);
+    } catch (error) {
+      console.log(error);
+      setErrorLogin(true);
+    }
   }
   const {
     errores,
@@ -18,6 +44,8 @@ export default function Login() {
     handleChange,
     handleSubmit,
   }=useValidacion(STATE_INICIAL,validarLogin,logearUsuario);  
+
+  const {email, password}=valores;
 
   return (
     <>
