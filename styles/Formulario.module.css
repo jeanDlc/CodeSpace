@@ -56,3 +56,7 @@
 .enlace:hover{
     color: var(--colorSecundario);
 }
+.errorValidacion{
+    color: var(--danger);
+    margin: 0;
+}
