@@ -20,7 +20,7 @@ a{
   font-size: 1.5rem;
 }
 body{
-  background-color: var(--ligero);
+  background-color: var(--ligero)!important;
 }
 
 .contenedor{
@@ -53,4 +53,7 @@ input{
   color: rgb(102, 102, 102);
   font-size: 1.5rem;
   padding: 1rem;
+}
+.text-center{
+  text-align: center;
 }
