@@ -7,6 +7,7 @@ import firebase from '../firebase/index';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
+import mostrarAlertas from '../alertas';
 export default function Login() {
   const router=useRouter();
 
@@ -16,15 +17,11 @@ export default function Login() {
   //muestra errores de logeo
   useEffect(()=>{
     if(errorLogin){
-      Swal.fire({
-        title: 'Error!',
-        text: 'No se pudo iniciar sesión',
-        icon: 'error',
-        confirmButtonText: 'Ok'
-      })
+      mostrarAlertas('Error', 'No se pudo iniciar sesión', 'error');
     }
   },[errorLogin]);
 
+  //state inicial que necesita el custom hook
   const STATE_INICIAL={
     email:'',
     password:''
@@ -40,6 +37,8 @@ export default function Login() {
       setErrorLogin(true);
     }
   }
+
+  //custom hook que valida el formulario
   const {
     errores,
     valores,
@@ -48,6 +47,7 @@ export default function Login() {
     handleSubmit,
   }=useValidacion(STATE_INICIAL,validarLogin,logearUsuario);  
 
+  //valores ingresados en el formulario
   const {email, password}=valores;
 
   return (

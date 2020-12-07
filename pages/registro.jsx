@@ -6,9 +6,8 @@ import useValidacion from '../hooks/useValidacion';
 import validarRegistro from '../validation/validarRegistro';
 import firebase from '../firebase/index';
 import { useState } from 'react';
-import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
-
+import mostrarAlertas from '../alertas';
 export default function Registro() {  
   const router=useRouter();
 
@@ -16,12 +15,7 @@ export default function Registro() {
   const [errorAuth, setErrorAuth]=useState(false);
   useEffect(()=>{
     if(errorAuth){
-      Swal.fire({
-        title: 'Error!',
-        text: 'Hubo error en la autenticación',
-        icon: 'error',
-        confirmButtonText: 'Ok'
-      })
+      mostrarAlertas('Error', 'Hubo un error en la autenticación', 'error');
     }
   },[errorAuth]);
   const STATE_INICIAL={
@@ -31,6 +25,7 @@ export default function Registro() {
     password:''
   }
   
+  //registra un nuevo usuario en Firebase
   const registrarUsuario=async ()=>{
     try {
       await firebase.registrar(nombre, apellido,email,password);
