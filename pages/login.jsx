@@ -6,7 +6,10 @@ import validarLogin from '../validation/validarLogin';
 import firebase from '../firebase/index';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
 export default function Login() {
+  const router=useRouter();
+
   //state local
   const [errorLogin, setErrorLogin]=useState(false);
 
@@ -30,8 +33,8 @@ export default function Login() {
   //logear al ususario
   const logearUsuario=async()=>{
     try {
-      const usuario=await firebase.login(email, password);
-      console.log(usuario);
+      await firebase.login(email, password);
+      router.push('/');
     } catch (error) {
       console.log(error);
       setErrorLogin(true);

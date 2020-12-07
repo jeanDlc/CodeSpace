@@ -35,19 +35,19 @@ const MenuMovil = () => {
                 onClose={handleClose}
             >   
             {usuario? (
-                <>
-                    <MenuItem onClick={handleClose}
+                [
+                    <MenuItem key="mi-perfil-movil" onClick={handleClose}
                         style={{
                             fontSize: '1.7rem',
                         }}
-                    >Mi perfil</MenuItem>
-                    <MenuItem onClick={handleClose}
+                    >Mi perfil</MenuItem>,
+                    <MenuItem key="nuevo-post-movil" onClick={handleClose}
                     >
                         <Link href="/nuevo-post">
                             <a>&#x271a; Post</a>
                         </Link>
-                    </MenuItem>
-                    <MenuItem onClick={()=>{
+                    </MenuItem>,
+                    <MenuItem key="cerrar-sesion-movil" onClick={()=>{
                         handleClose();
                         firebase.cerrarSesion();
                     }}
@@ -57,16 +57,16 @@ const MenuMovil = () => {
                             color:'white'
                         }}
                     >Cerrar sesión</MenuItem>
-                </>
+                ]
             ): (
-                <>
-                    <MenuItem onClick={handleClose}
+                [
+                    <MenuItem key="login-movil" onClick={handleClose}
                     >
                         <Link href="/login">
                             <a>Iniciar sesión</a>
                         </Link>
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}
+                    </MenuItem>,
+                    <MenuItem key="registro-movil" onClick={handleClose}
                         style={{
                             backgroundColor:'var(--colorPrincipal)'
                         }}
@@ -75,7 +75,7 @@ const MenuMovil = () => {
                             <a className="white" >Registrarme</a>
                         </Link>
                     </MenuItem>
-                </>
+                ]
             )}
 
                 <MenuItem onClick={handleClose}

@@ -14,20 +14,31 @@
     font-weight: bold;
 }
 .formGroup{
-    margin-bottom: 2.7rem;    
+    margin-bottom: 1.8rem;    
 }
-.formGroup input{    
+.formGroup input , .formGroup textarea{    
     width: 100%;
     border: 1px solid #e1e1e1;
+    margin-bottom: 1rem;
 }
-.formGroup input:focus{
+.formGroup input:focus , .formGroup textarea:focus{
     border: 1.7px solid #a3ccda;
+}
+.formGroup textarea{
+    display: block;
+    height: 15rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 .formGroup label{    
    font-size: 1.7rem;
    color: var(--colorPrincipal);
    font-weight: bold;
    line-height: 2;
+}
+.formGroup label + span{
+    color: var(--colorSecundario);
+    margin-left: .5rem;
+    font-size: 1.3rem;
 }
 .btnSubmit{   
     padding: 1.2rem;
@@ -59,4 +70,29 @@
 .errorValidacion{
     color: var(--danger);
     margin: 0;
+}
+.inputImagen{
+    display: none;
+  }
+.pointer{
+    border:2px solid var(--colorPrincipal);
+    transition: all .3s ease-out;
+    padding: 1rem;
+}
+.pointer:hover{
+    color: white;
+    background-color: var(--colorPrincipal);
+    cursor: pointer;
+    
+}
+.divUrl{
+    position:relative;
+}
+.btnEliminarInput{
+    position:absolute;
+    top:.7rem;
+    right:1rem;
+    margin:0;
+    color: #444;
+    cursor: pointer;
 }

@@ -7,8 +7,11 @@ import validarRegistro from '../validation/validarRegistro';
 import firebase from '../firebase/index';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
 
 export default function Registro() {  
+  const router=useRouter();
+
   //state local
   const [errorAuth, setErrorAuth]=useState(false);
   useEffect(()=>{
@@ -32,6 +35,7 @@ export default function Registro() {
     try {
       await firebase.registrar(nombre, apellido,email,password);
       setErrorAuth(false);
+      router.push('/');
     } catch (error) {      
       setErrorAuth(true);
     }

@@ -47,7 +47,7 @@ img{
 li{
   font-size: 1.7rem;
 }
-input{
+input,textarea{
   border: none;
   border-radius: .4rem;
   color: rgb(102, 102, 102);

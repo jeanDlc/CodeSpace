@@ -63,29 +63,29 @@ const Navbar = () => {
                         <Link href="/creadores">
                             <a>Creadores</a>
                         </Link>
-                        {usuario? (
-                            <>
-                                <Link href="/nuevo-post">
+                        {usuario? 
+                            [
+                                <Link key="nuevo-post" href="/nuevo-post">
                                     <a>&#x271a; Post</a>
-                                </Link>
-                                <a href="#">Mi Perfil</a>                                
-                                <div className={classes.root}>                                    
+                                </Link>,
+                                <a key="mi-perfil" href="#">Mi Perfil</a>,
+                                <div key="cerrar-sesion" className={classes.root}>                                    
                                     <Button variant="contained"
                                         onClick={()=>firebase.cerrarSesion()}
                                     >
                                         Cerrar sesión
                                     </Button>
                                 </div>
-                            </>
-                        ):
-                            <>
-                                <Link href="/login">
+                            ]
+                        :
+                            [
+                                <Link key="login" href="/login">
                                     <a>Login</a>
-                                </Link>
-                                <Link href="/registro">
+                                </Link>,
+                                <Link key="registro" href="/registro">
                                     <a>Registrarme</a>
                                 </Link>
-                            </>
+                            ]
                         }
                     </div>                    
                 </div>
