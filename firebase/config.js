@@ -4,7 +4,9 @@ const firebaseConfig = {
     projectId: "codespace-829d2",
     storageBucket: "codespace-829d2.appspot.com",
     messagingSenderId: "778731068926",
-    appId: "1:778731068926:web:6346efd395f99be3ae34af"
+    appId: "1:778731068926:web:6346efd395f99be3ae34af",
+    measurementId: "G-XWLZ3G9VB4"
+
 };
 export default firebaseConfig;
 

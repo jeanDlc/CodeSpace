@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Link from 'next/link';
-
+/**Estilos para material ui******************************************* */
 const useStyles = makeStyles((theme) => ({
     contenedorPosts: {
       '& > *': {
@@ -25,10 +25,12 @@ const useStyles = makeStyles((theme) => ({
         margin:'0 0 1rem 0'
     },
   }));
-
+/**Componente principal Post***************************************** */
 const Posts = ({post}) => {
 
     const classes = useStyles();
+
+    /**Información traída de la BBDD */
     const {titulo, comentarios, numLikes,fecha, descripcion,idCreador,url,urlImagen}=post;
 
     useEffect(()=>{
@@ -36,8 +38,9 @@ const Posts = ({post}) => {
             getInfoCreador(idCreador);
         }
     },[]);
+
     const getInfoCreador=idCreador=>{
-        console.log(idCreador);
+        //console.log(idCreador);
     }
     return (
         

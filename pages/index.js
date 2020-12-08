@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import {FirebaseContext} from '../firebase/index';
+import Avatar from '@material-ui/core/Avatar';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -19,6 +20,13 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign:'center'
   },
+  avatar:{
+    display:'flex',
+    alignItems:'center',
+    '& p':{
+      marginLeft:'2rem'
+    }
+  }
 }));
 export default function Home() {
   const {usuario}=useContext(FirebaseContext);
@@ -62,10 +70,18 @@ export default function Home() {
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <Paper className={classes.paper}>
-                          {usuario && usuario.displayName!==null? <p>Bienvenido {usuario.displayName} </p> : 
+                          {usuario && usuario.photoURL && usuario.displayName!==null  ? 
+                            <div className={classes.avatar}>
+                              <Avatar alt="Foto de perfil" src={usuario.photoURL} />
+                              <p>Bienvenido {usuario.displayName} </p>
+                            </div>
+                            : null  
+                          }
+                          {!usuario?
                             <Link href="/login">
                               <a>Inicia sesión</a>
                             </Link>
+                            : null
                           }
                         </Paper>
                     </Grid>

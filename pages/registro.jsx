@@ -28,13 +28,16 @@ export default function Registro() {
   //registra un nuevo usuario en Firebase
   const registrarUsuario=async ()=>{
     try {
-      await firebase.registrar(nombre, apellido,email,password);
+      const user= await firebase.registrar(nombre,email,password);
+      const id=user.user.uid;
+      await firebase.crearUserModel(id, nombre,apellido,email);
+      console.log(user.user.uid);
       setErrorAuth(false);
       router.push('/');
     } catch (error) {      
       setErrorAuth(true);
     }
-  }
+  } 
   
   const {
     errores,
