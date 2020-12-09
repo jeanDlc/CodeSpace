@@ -1,18 +1,22 @@
 import React, {useState, useEffect} from 'react';
 import firebase from '../firebase/index';
+
 const useUsuario = idUsuario => {
+    
     const [usuarioBuscado, setUsuarioBuscado]=useState(null);
     const [errorGetUsuario, setErrorGetUsuario]=useState('');
     const getInformacion=async(idUsuario)=>{
         try {
-            firebase.db.collection("usuarios").where("idAuth", "==", idUsuario)
+            firebase.db.collection("usuarios").doc(idUsuario)
             .get()
-            .then(querySnapshot =>{                
-                querySnapshot.forEach(doc=> {
-                    // doc.data() is never undefined for query doc snapshots
+            .then(doc =>{
+                if (doc.exists) {
                     const datos=doc.data();
-                    setUsuarioBuscado(datos);
-                });
+                    setUsuarioBuscado(datos);                    
+                } else {
+                    // doc.data() will be undefined in this case
+                    setErrorGetUsuario('No se pudo encontrar el usuario');
+                }
             })
             .catch(function(error) {
                 setErrorGetUsuario('No se pudo encontrar el usuario');
@@ -23,6 +27,7 @@ const useUsuario = idUsuario => {
     }
     useEffect(()=>{
         getInformacion(idUsuario);
+        
     },[]);    
     return ( {usuarioBuscado, errorGetUsuario} );
 }

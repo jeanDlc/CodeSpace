@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/globals.css';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
@@ -7,11 +7,13 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
 import firebase, {FirebaseContext} from '../firebase/index';
 import useAutenticacion from '../hooks/useAutenticacion';
+import useUsuario from '../hooks/useUsuario';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
 
   const usuario=useAutenticacion();
+  console.log(usuario);
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -30,7 +32,7 @@ export default function MyApp(props) {
         <FirebaseContext.Provider
           value={{
             firebase,
-            usuario
+            usuario,
           }}
         >
             <ThemeProvider theme={theme}>

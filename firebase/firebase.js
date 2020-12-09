@@ -41,7 +41,7 @@ class Firebase{
             listaIdPostsPropios:[]
         }
         console.log(usuario);
-        return await this.db.collection('usuarios').add(usuario);
+        return await this.db.collection('usuarios').doc(id).set(usuario);
     }
     async login(email, password){
         return await this.auth.signInWithEmailAndPassword(email, password);

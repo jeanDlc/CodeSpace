@@ -2,6 +2,10 @@ import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Link from 'next/link';
+import useUsuario from '../../hooks/useUsuario';
+import Avatar from '@material-ui/core/Avatar';
+import LikePost from '../ui/LikePost';
+
 /**Estilos para material ui******************************************* */
 const useStyles = makeStyles((theme) => ({
     contenedorPosts: {
@@ -17,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
         display:'block',
         fontSize:'2.5rem',
         marginBottom:'1rem',
+        marginTop:0,
         fontFamily:'var(--fuentePrincipal)',
         fontWeight:'300'
     },
@@ -24,6 +29,15 @@ const useStyles = makeStyles((theme) => ({
         color:'#444',
         margin:'0 0 1rem 0'
     },
+    avatar:{
+        display:'flex',
+        alignItems:'center',
+        '& p':{
+            marginLeft:'1rem',
+            color:'#444',
+            fontWeight:'bold',
+        }
+    }
   }));
 /**Componente principal Post***************************************** */
 const Posts = ({post}) => {
@@ -31,21 +45,22 @@ const Posts = ({post}) => {
     const classes = useStyles();
 
     /**Información traída de la BBDD */
-    const {titulo, comentarios, numLikes,fecha, descripcion,idCreador,url,urlImagen}=post;
+    const {titulo, comentarios, numLikes,fecha, descripcion,idCreador,url,urlImagen,idPost}=post;
+    //console.log(post);
+    const {usuarioBuscado, errorGetUsuario}=useUsuario(idCreador);
+    //console.log(usuarioBuscado ,errorGetUsuario);
 
-    useEffect(()=>{
-        if(idCreador){
-            getInfoCreador(idCreador);
-        }
-    },[]);
-
-    const getInfoCreador=idCreador=>{
-        //console.log(idCreador);
-    }
     return (
         
         <div className={classes.contenedorPosts}>
             <Paper elevation={2}>
+                {usuarioBuscado?
+                    <div className={classes.avatar}>
+                        <Avatar alt="Remy Sharp" src={usuarioBuscado.urlFotoPerfil} />
+                        <p>{usuarioBuscado.nombre} {usuarioBuscado.apellido} </p>
+                    </div>
+                : null}
+            
                 {url? (
                     <h2 className={classes.tituloPost}>
                         <Link href={url}>
@@ -57,7 +72,8 @@ const Posts = ({post}) => {
                 }
                 
                 <p className={classes.descripcion} >{descripcion} </p>
-                <img src={urlImagen} alt="Imagen"/>
+                <img src={urlImagen} alt="Imagen"/>                
+                <LikePost idPost={idPost} numLikes={numLikes} />
             </Paper>
         </div>
     );

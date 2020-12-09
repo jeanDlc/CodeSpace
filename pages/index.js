@@ -70,12 +70,12 @@ export default function Home() {
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <Paper className={classes.paper}>
-                          {usuario && usuario.photoURL && usuario.displayName!==null  ? 
+                          {usuario && usuario.data.urlFotoPerfil && usuario.data.nombre!==null  ? 
                             <div className={classes.avatar}>
-                              <Avatar alt="Foto de perfil" src={usuario.photoURL} />
-                              <p>Bienvenido {usuario.displayName} </p>
+                              <Avatar alt="Foto de perfil" src={usuario.data.urlFotoPerfil} />
+                              <p>Bienvenido {usuario.data.nombre} </p>
                             </div>
-                            : null  
+                            : null
                           }
                           {!usuario?
                             <Link href="/login">
