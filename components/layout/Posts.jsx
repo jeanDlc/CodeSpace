@@ -5,7 +5,7 @@ import Link from 'next/link';
 import useUsuario from '../../hooks/useUsuario';
 import Avatar from '@material-ui/core/Avatar';
 import LikePost from '../ui/LikePost';
-
+import ComentariosPosts from '../ui/ComentariosPost';
 /**Estilos para material ui******************************************* */
 const useStyles = makeStyles((theme) => ({
     contenedorPosts: {
@@ -74,6 +74,7 @@ const Posts = ({post}) => {
                 <p className={classes.descripcion} >{descripcion} </p>
                 <img src={urlImagen} alt="Imagen"/>                
                 <LikePost idPost={idPost} numLikes={numLikes} />
+                <ComentariosPosts idPost={idPost} comentarios={comentarios} />
             </Paper>
         </div>
     );

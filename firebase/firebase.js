@@ -2,14 +2,14 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
-import 'firebase/analytics';
+//import 'firebase/analytics';
 import firebaseConfig from './config';
 
 class Firebase{
     constructor(){
         if(!app.apps.length){
             app.initializeApp(firebaseConfig);
-            this.analytics= app.analytics();
+            //this.analytics= app.analytics();
 
         }
         this.auth=app.auth();
