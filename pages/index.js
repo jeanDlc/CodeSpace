@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import {FirebaseContext} from '../firebase/index';
 import Avatar from '@material-ui/core/Avatar';
+/**Estilos de material ui******************************************* */
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -28,24 +29,28 @@ const useStyles = makeStyles((theme) => ({
     }
   }
 }));
+/**Componente principal******************************************************* */
 export default function Home() {
   const {usuario}=useContext(FirebaseContext);
   const classes = useStyles();
   const [listaPosts, setListaPosts]=useState([]);
+  
   useEffect(()=>{
-      getPosts();
+        getPosts();
   },[]);
   const getPosts=async()=>{
+
     try {
       const query =await firebase.db.collection('posts').orderBy('fecha', 'desc');
       query.onSnapshot(snapshot=>{
         let posts=[];
-        snapshot.docChanges().forEach(change=>{
-          const post={
-            idPost:change.doc.id,
-            ...change.doc.data()
-          }
-          posts.push(post);
+        //trae todos los documentos incluso cuando solo uno se actualiza
+        snapshot.forEach(function(doc) {
+            const post={
+                idPost:doc.id,
+              ...doc.data()
+            }
+            posts.push(post);
         });
         setListaPosts(posts);
       });
@@ -53,8 +58,9 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     }
+    
   }
-  console.log(listaPosts);
+
   return (
     <>
       <Layout>

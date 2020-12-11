@@ -46,9 +46,9 @@ const Posts = ({post}) => {
 
     /**Información traída de la BBDD */
     const {titulo, comentarios, numLikes,fecha, descripcion,idCreador,url,urlImagen,idPost}=post;
-    //console.log(post);
+    
     const {usuarioBuscado, errorGetUsuario}=useUsuario(idCreador);
-    //console.log(usuarioBuscado ,errorGetUsuario);
+
 
     return (
         

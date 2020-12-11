@@ -6,6 +6,7 @@ import validarComentario from '../../validation/validarComentario';
 import firebase,{FirebaseContext} from '../../firebase/index';
 import alertas from '../../alertas';
 import Comentario from './Comentario';
+/**Estilos de material ui******************************************* */
 const useStyles = makeStyles((theme) => ({
     envioComentario: {
         display:'flex',
@@ -19,17 +20,16 @@ const useStyles = makeStyles((theme) => ({
         listStyle:'none',
         padding:0
     },
-    comentario:{}
   }));
-
-const ComentariosPost = ({idPost, comentarios}) => {    
+/**Componente principal************************************************** */
+const ComentariosPost = ({idPost, comentarios}) => {
     const {usuario}=useContext(FirebaseContext);
-    
+    //state inicial para el hook personalizado: useValidacion
     const STATE_INICIAL={
         comentario:''
     }
+    //envia comentario a firebase
     const enviarComentario=async()=>{
-        console.log('enviar comentario');
         try {
             const miComentario={
                 idUsuario:usuario.usuario.uid,
@@ -39,13 +39,15 @@ const ComentariosPost = ({idPost, comentarios}) => {
                 mensaje: comentario
             }
             await firebase.db.collection('posts').doc(idPost).update({
-                comentarios: [...comentarios, miComentario]
+                comentarios: [ miComentario , ...comentarios ]
             })
         } catch (error) {
             console.log(error);
             alertas('Error','No se pudo enviar tu comentario','error');
         }
     }
+
+    //hook personalizado que valida los inputs de los formularios
     const {
         errores,
         valores,
@@ -54,23 +56,29 @@ const ComentariosPost = ({idPost, comentarios}) => {
         handleSubmit,
     }=useValidacion(STATE_INICIAL, validarComentario, enviarComentario);
     const {comentario}=valores;
+
+    //clases de material ui
     const classes = useStyles();
     
+    //cada vez que hay un error de useValidacion, se dispara una alerta
     useEffect(()=>{
         if(Object.keys(errores).length>0){
             alertas('Error','Hubo un error','error');
         }
     },[errores]);
+    
     return ( 
         <div >
             <form className={classes.envioComentario} onSubmit={handleSubmit}>
                 <input type="text"
                     onChange={handleChange}
                     name="comentario"
+                    placeholder="Escribe un comentario"
                 />
-                <SendIcon style={{ 
+                <SendIcon onClick={handleSubmit} style={{ 
                     flexBasis:'3rem',
                     fontSize:'2rem',
+                    cursor:'pointer',
                     '&:hover':{
                         color:'var(--colorPrincipal)',
                         cursor:'pointer'

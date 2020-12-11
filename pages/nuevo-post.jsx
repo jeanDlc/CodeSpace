@@ -61,7 +61,7 @@ export default function NuevoPost() {
     }
     try {
       const post={
-        idCreador:usuario.uid,
+        idCreador:usuario.usuario.uid,
         fecha: Date.now(),
         titulo,
         descripcion,

@@ -20,7 +20,6 @@ const LikePost = ({idPost,numLikes}) => {
         if(permitirLike){//para evitar que se ejecute más veces de la necesaria
             const cambiarPreferencia=async()=>{
                 try {
-                    console.log(usuario);
                     await firebase.db.collection('usuarios').doc(usuario.usuario.uid).update({
                         listaIdPostFavoritos:listaPostFavoritos
                     });
@@ -71,11 +70,13 @@ const LikePost = ({idPost,numLikes}) => {
                 idPost
             ]);
             setColorLike("var(--colorSecundario)");
+            
         } catch (error) {
             console.log(error);
         }
 
     }
+
     const desmarcarComoFavorito=async()=>{
         console.log('desmarcando');
         try {
@@ -85,6 +86,7 @@ const LikePost = ({idPost,numLikes}) => {
             const quitarPost=listaPostFavoritos.filter(id=>id!==idPost);
             setListaPostFavoritos(quitarPost);
             setColorLike("#444");
+            
         } catch (error) {
             console.log(error);
         }
