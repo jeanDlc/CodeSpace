@@ -6,6 +6,9 @@ import useUsuarios from '../hooks/useUsuarios';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import Link from 'next/link';
+
+/**Estilos de material ui*************************************** */
 const useStyles = makeStyles((theme) => ({
   lista: {
     width: '100%',
@@ -32,7 +35,12 @@ const useStyles = makeStyles((theme) => ({
   },
   nombre:{
     fontWeight:'bold',
-    fontSize:'1.8rem'
+    fontSize:'1.8rem',
+    color:'#444',
+    transition:'all .3s ease-out',
+    '&:hover':{
+      color:'var(--colorSecundario)'
+    }
   },
   titulo:{
     textAlign:'center',
@@ -43,10 +51,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize:'1.3rem'
   }
 }));
+/**Componente principal******************************** */
 export default function Creadores() {
   const classes = useStyles();
+  
+  //lista de usuarios o creadores
   const usuarios=useUsuarios();
-  console.log(usuarios);
+  
   //despliega la lista de todos los usuarios
   return (
     <>
@@ -54,13 +65,15 @@ export default function Creadores() {
         <CssBaseline />
         <Container maxWidth="sm">
           <h1 className={classes.titulo} >Creadores</h1>
-          <p>Conoce a tus creadores</p>
+          <p>Conoce a los creadores de contenido</p>
           <ul className={classes.lista} >
             {usuarios.map(user=>(
               <li className={classes.liUsuario} key={user.idUsuario} > 
                 <Avatar alt="usuario foto" src={user.datos.urlFotoPerfil} />
                 <div className={classes.info} >
-                  <p className={classes.nombre}>{user.datos.nombre} {user.datos.apellido} </p>
+                  <Link href={`/usuario/${user.datos.idAuth}`}>
+                    <a className={classes.nombre}>{user.datos.nombre} {user.datos.apellido}</a>
+                  </Link>
                   <p className={classes.email} >{user.datos.email}</p>
                   <p className={classes.numSeguidores} >{user.datos.numSeguidores} seguidores <FavoriteIcon/></p> 
                 </div>  

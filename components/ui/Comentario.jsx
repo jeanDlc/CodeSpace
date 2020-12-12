@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
+import Link from 'next/link'
 /**Estilos de material ui***************************************** */
 const useStyles = makeStyles((theme) => ({
     liComentario:{
@@ -17,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
         marginTop:0,
         fontSize:'1.4rem',
         marginBottom:0,
-        fontWeight:'bold'
+        fontWeight:'bold',
+        color:'#383838'
         
     },
     infoUsuario:{
@@ -43,9 +45,11 @@ const Comentario = ({comentario}) => {
             <div className={classes.usuario}>
                 <Avatar alt="foto" src={comentario.fotoUsuario} />                
                 <div className={classes.infoUsuario} >
-                    <p className={classes.nombreUser}>
-                        {comentario.nombreUsuario} {comentario.apellidoUsuario} 
-                    </p>
+                    <Link href={`usuario/${comentario.idUsuario}`}>
+                        <a className={classes.nombreUser}>
+                            {comentario.nombreUsuario} {comentario.apellidoUsuario} 
+                        </a>
+                    </Link>
                     <p className={classes.mensaje}>
                         {comentario.mensaje} 
                     </p>                    

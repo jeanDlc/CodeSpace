@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import {FirebaseContext} from '../firebase/index';
 import Avatar from '@material-ui/core/Avatar';
+import Sidebar from '../components/layout/Sidebar'; 
 /**Estilos de material ui******************************************* */
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,21 +76,7 @@ export default function Home() {
                         ))}
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <Paper className={classes.paper}>
-                          {usuario && usuario.data.urlFotoPerfil && usuario.data.nombre!==null  ? 
-                            <div className={classes.avatar}>
-                              <Avatar alt="Foto de perfil" src={usuario.data.urlFotoPerfil} />
-                              <p>Bienvenido {usuario.data.nombre} </p>
-                            </div>
-                            : null
-                          }
-                          {!usuario?
-                            <Link href="/login">
-                              <a>Inicia sesión</a>
-                            </Link>
-                            : null
-                          }
-                        </Paper>
+                        <Sidebar/>
                     </Grid>
                 </Grid>
               </div>

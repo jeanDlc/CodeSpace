@@ -7,10 +7,12 @@ const useUsuario = idUsuario => {
     const [errorGetUsuario, setErrorGetUsuario]=useState('');
     const getInformacion=async(idUsuario)=>{
         try {
-            firebase.db.collection("usuarios").doc(idUsuario)
+            
+            await firebase.db.collection("usuarios").doc(idUsuario)
             .get()
             .then(doc =>{
                 if (doc.exists) {
+                    
                     const datos=doc.data();
                     setUsuarioBuscado(datos);                    
                 } else {

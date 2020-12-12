@@ -5,6 +5,7 @@ import 'firebase/storage';
 //import 'firebase/analytics';
 import firebaseConfig from './config';
 
+
 class Firebase{
     constructor(){
         if(!app.apps.length){
@@ -14,7 +15,8 @@ class Firebase{
         }
         this.auth=app.auth();
         this.db=app.firestore();
-        this.storage=app.storage();        
+        this.storage=app.storage();   
+        this.fieldValue=app.firestore.FieldValue;
     }
     async registrar(nombre, email, password){        
         const nuevoUsuario=await this.auth.createUserWithEmailAndPassword(email, password);

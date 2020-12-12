@@ -6,6 +6,7 @@ import useUsuario from '../../hooks/useUsuario';
 import Avatar from '@material-ui/core/Avatar';
 import LikePost from '../ui/LikePost';
 import ComentariosPosts from '../ui/ComentariosPost';
+
 /**Estilos para material ui******************************************* */
 const useStyles = makeStyles((theme) => ({
     contenedorPosts: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         display:'block',
         fontSize:'2.5rem',
         marginBottom:'1rem',
-        marginTop:0,
+        marginTop:'1rem',
         fontFamily:'var(--fuentePrincipal)',
         fontWeight:'300'
     },
@@ -32,10 +33,11 @@ const useStyles = makeStyles((theme) => ({
     avatar:{
         display:'flex',
         alignItems:'center',
-        '& p':{
+        '& a':{
             marginLeft:'1rem',
             color:'#444',
             fontWeight:'bold',
+            fontSize:'1.7rem'
         }
     }
   }));
@@ -49,7 +51,7 @@ const Posts = ({post}) => {
     
     const {usuarioBuscado, errorGetUsuario}=useUsuario(idCreador);
 
-
+    if(!usuarioBuscado) return null;
     return (
         
         <div className={classes.contenedorPosts}>
@@ -57,7 +59,9 @@ const Posts = ({post}) => {
                 {usuarioBuscado?
                     <div className={classes.avatar}>
                         <Avatar alt="Remy Sharp" src={usuarioBuscado.urlFotoPerfil} />
-                        <p>{usuarioBuscado.nombre} {usuarioBuscado.apellido} </p>
+                        <Link href={`/usuario/${idCreador}`}>
+                            <a>{usuarioBuscado.nombre} {usuarioBuscado.apellido}</a>
+                        </Link>
                     </div>
                 : null}
             

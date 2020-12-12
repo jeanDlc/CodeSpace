@@ -68,7 +68,9 @@ const Navbar = () => {
                                 <Link key="nuevo-post" href="/nuevo-post">
                                     <a>&#x271a; Post</a>
                                 </Link>,
-                                <a key="mi-perfil" href="#">Mi Perfil</a>,
+                                <Link href={`/usuario/${usuario.usuario.uid}`} key="mi-perfil">
+                                    <a>Mi Perfil</a>
+                                </Link>,
                                 <div key="cerrar-sesion" className={classes.root}>                                    
                                     <Button variant="contained"
                                         onClick={()=>firebase.cerrarSesion()}

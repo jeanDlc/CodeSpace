@@ -21,6 +21,7 @@ const useAutenticacion = () => {
     const getDatosAdicionales=async(usuario)=>{
       
       try {
+        /*
           await firebase.db.collection("usuarios").doc(usuario.uid)
           .get()
           .then(doc =>{
@@ -34,6 +35,14 @@ const useAutenticacion = () => {
           })
           .catch(function(error) {
               console.log(error);
+          });*/
+          await firebase.db.collection("usuarios").doc(usuario.uid)
+          .onSnapshot(doc =>{
+              const data=doc.data();
+              setUsuarioAutenticado({
+                usuario:usuario,
+                data:data
+              })
           });
       } catch (error) {
         console.log(error);

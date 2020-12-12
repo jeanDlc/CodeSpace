@@ -11,7 +11,6 @@ const useUsuarios = () => {
                         idUsuario:doc.id,
                         datos:doc.data()
                     })
-                    console.log(doc.id, " => ", doc.data());
                 });
                 setUsuarios(users);
             });
