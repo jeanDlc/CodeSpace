@@ -13,7 +13,6 @@ import Posts from '../../components/layout/Posts';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import Button from '@material-ui/core/Button';
 import BtnSeguir from '../../components/ui/BtnSeguir';
 const useStyles = makeStyles((theme) => ({
     
@@ -38,42 +37,45 @@ const Post = () => {
     const {usuario}=useContext(FirebaseContext);
     const [consultarDB,setConsultarDB]=useState(true);
     const router = useRouter();
+
     //el id de usuario que llega por get
     const { pid } = router.query;
-
-    const {usuarioBuscado, errorGetUsuario}=useUsuario(pid);
     
+    const {usuarioBuscado, errorGetUsuario}=useUsuario(pid);
+
     useEffect(()=>{
-        //obtiene todos los posts de un usuario
-        const obtenerPosts=async(idUsuario)=>{
-            try {
-                const query =await firebase.db.collection('posts').where("idCreador", "==", idUsuario);
-                query.onSnapshot(snapshot=>{
-                    let posts=[];
-                    //trae todos los documentos incluso cuando solo uno se actualiza
-                    snapshot.forEach(function(doc) {
-                        const post={
-                            idPost:doc.id,
-                        ...doc.data()
-                        }
-                        posts.push(post);
-                    });
-                    setPostsUsuario(posts);
-                });
-                console.log('consulta');
-                setConsultarDB(false);
-            } catch (error) {
-                setConsultarDB(false);
-                mostrarAlertas('Error', 'Hubo un error', 'error');
-                console.log(error);
-            }
-        }
+        const ac = new AbortController();
         if(pid && consultarDB){
             obtenerPosts(pid);
         }
+        return () => ac.abort(); 
     },[pid]);
-    
-    if(!usuarioBuscado) return <p>Loading...</p>
+    //obtiene todos los posts de un usuario
+    const obtenerPosts=async(idUsuario)=>{
+        try {
+            
+            const query =await firebase.db.collection('posts').where("idCreador", "==", idUsuario);
+            query.onSnapshot(snapshot=>{
+                let posts=[];
+                //trae todos los documentos incluso cuando solo uno se actualiza
+                snapshot.forEach(function(doc) {
+                    const post={
+                        idPost:doc.id,
+                    ...doc.data()
+                    }
+                    posts.push(post);
+                });
+                setPostsUsuario(posts);
+            });
+            
+            setConsultarDB(false);
+        } catch (error) {
+            setConsultarDB(false);
+            mostrarAlertas('Error', 'Hubo un error', 'error');
+            console.log(error);
+        }
+    }
+    if( !usuarioBuscado) return <p>Loading...</p>
     return (
       <Layout>
         <CssBaseline />
@@ -111,6 +113,9 @@ const Post = () => {
                 </Grid>
                 <Grid item xs={12} sm={4}>
                         <BtnSeguir idUsuario={pid} />
+                        {usuario && usuario.usuario.uid===usuarioBuscado.idAuth?(
+                            <Sidebar/>
+                        ) : null}
                 </Grid>
             </Grid>
         </Container>

@@ -74,7 +74,9 @@ const Posts = ({post}) => {
                 ):
                     <h2 className={classes.tituloPost} >{titulo}</h2>
                 }
-                
+                <Link href={`/post/${idPost}`}>
+                    <a>Go to post</a>
+                </Link>
                 <p className={classes.descripcion} >{descripcion} </p>
                 <img src={urlImagen} alt="Imagen"/>                
                 <LikePost idPost={idPost} numLikes={numLikes} />

@@ -37,7 +37,9 @@ export default function Home() {
   const [listaPosts, setListaPosts]=useState([]);
   
   useEffect(()=>{
+        const ac = new AbortController();
         getPosts();
+        return () => ac.abort();
   },[]);
   const getPosts=async()=>{
 

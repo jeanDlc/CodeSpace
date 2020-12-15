@@ -24,7 +24,7 @@ const LikePost = ({idPost,numLikes}) => {
                         listaIdPostFavoritos:listaPostFavoritos
                     });
                 } catch (error) {
-                    console.log(error);
+                    console.log(error); 
                 }
             }
             cambiarPreferencia();
