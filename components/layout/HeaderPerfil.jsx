@@ -5,6 +5,9 @@ import Divider from '@material-ui/core/Divider';
 import EditIcon from '@material-ui/icons/Edit';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import {FirebaseContext} from '../../firebase/index';
+import Swal from 'sweetalert2';
+import firebase from '../../firebase/index';
+import mostrarAlertas from '../../alertas';
 
 const HeaderPerfil = ({nombre,id,urlFotoPortada,urlFotoPerfil,apellido}) => {
     /**Estilos de material ui*************************************** */
@@ -37,6 +40,9 @@ const HeaderPerfil = ({nombre,id,urlFotoPortada,urlFotoPerfil,apellido}) => {
                 }
             }
         },
+        none:{
+            display:'none'
+        },
         perfil:{
             marginTop:'-10rem',
             display:'flex',
@@ -65,19 +71,88 @@ const HeaderPerfil = ({nombre,id,urlFotoPortada,urlFotoPerfil,apellido}) => {
       }));
     const {usuario}=useContext(FirebaseContext);
     const classes = useStyles();
-    const editarFotoPortada=()=>{
-        console.log('editar foto portada');
+
+    const guardarEnStorage=(imagen, campo)=>{
+        try {
+            firebase.storage.ref(`userPhoto/${imagen.name}-${usuario.usuario.uid}`).put(imagen)
+            .then(fileSnapshot=>{
+              fileSnapshot.ref.getDownloadURL().then(url=>{
+                    const nombreImagen=`${imagen.name}-${usuario.usuario.uid}`;
+                    confirmarCambios(url, campo,nombreImagen);
+              }).catch(error=>{
+                  console.log(error);
+              });
+            }).catch(error=>{
+                console.log(error);
+            });
+          } catch (error) {
+            console.log(error);
+          }
     }
-    const editarFotoPerfil=()=>{
-        console.log('editar foto perfil');
+    const editarFoto = e=>{
+        //el name del input es el nombre del campo de usuario que se va a editar
+        const campo=e.target.name; // puede ser urlFotoPortada o urlFotoPerfil
+        const imagen=e.target.files[0]; //imagen que se guardará en storage
+        guardarEnStorage(imagen, campo);
+    }
+    const confirmarCambios=(url,campo,nombreImagen)=>{
+        Swal.fire({
+            title: 'Seguro de cambiar tu foto?',
+            text: "Confirmanos tu respuesta!",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#845ec2',
+            cancelButtonColor: 'rgb(253, 91, 91)',
+            confirmButtonText: 'Editar!',
+            cancelButtonText:'Cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              actualizarPerfil(url,campo);
+            }else{
+                eliminarImagenDeStorage(nombreImagen);
+            }
+          })
+    }
+    const actualizarPerfil=async (url,campo)=>{
+        console.log(`Agregar foto ${url} al storage al campo ${campo}`);
+        try {
+            await firebase.db.collection('usuarios').doc(usuario.usuario.uid).update({
+                [campo]:url
+            });
+            mostrarAlertas('Actualizado','Se actualizó correctamente','success');
+        } catch (error) {
+            console.log(error);
+            mostrarAlertas('Error','Ocurrió un error','error');
+        }
+    }
+    const eliminarImagenDeStorage=async nombreImagen=>{
+        console.log(`Elimnar ${nombreImagen}`);
+        try {
+            await firebase.storage.ref(`userPhoto/${nombreImagen}`).delete().then(()=>{
+                console.log('Se eliminó de storage');
+            }).catch(error=>{
+                console.log(error);
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
     return ( 
         <div>
             <div className={classes.portada} >
                 <div className={classes.fotoPortada}></div>
                 {usuario!=null && usuario.usuario.uid==id?
-                    <button className={classes.btnEditar} onClick={editarFotoPortada} >
-                        <EditIcon/>
+                    <button className={classes.btnEditar}>
+                        
+                        <label htmlFor="urlFotoPortada"><EditIcon/></label>
+                        <input                       
+                        type="file" 
+                        id="urlFotoPortada"
+                        accept="image/*"
+                        name="urlFotoPortada"
+                        onChange={editarFoto}
+                        className={classes.none}
+                        /> 
                     </button>
                 : null}
                 
@@ -90,8 +165,16 @@ const HeaderPerfil = ({nombre,id,urlFotoPortada,urlFotoPerfil,apellido}) => {
                 />
             </div>
             {usuario!=null && usuario.usuario.uid==id?
-                <div className={classes.iconoCamara} onClick={editarFotoPerfil}>
-                    <CameraAltIcon/>
+                <div className={classes.iconoCamara}>
+                    <label htmlFor="urlFotoPerfil"> <CameraAltIcon/></label>
+                    <input                       
+                      type="file" 
+                      id="urlFotoPerfil"
+                      accept="image/*"
+                      name="urlFotoPerfil"
+                      onChange={editarFoto}
+                      className={classes.none}
+                    /> 
                 </div>
             : null}
             

@@ -2,36 +2,56 @@ import React, {useState, useEffect} from 'react';
 import firebase from '../firebase/index';
 
 const useUsuario = idUsuario => {
-    console.log(idUsuario);
     const [usuarioBuscado, setUsuarioBuscado]=useState(null);
     const [errorGetUsuario, setErrorGetUsuario]=useState('');
-    const getInformacion=async(id)=>{
-        try {
-            
-            await firebase.db.collection("usuarios").doc(id)
-            .get()
-            .then(doc =>{
-                console.log('consultando')
-                if (doc.exists) {
-                    const datos=doc.data();
-                    setUsuarioBuscado(datos);                    
-                } else {
-                    // doc.data() will be undefined in this case
-                    setErrorGetUsuario('El usuario no existe: ' + id);
+    
+    useEffect(()=>{ 
+        const ac = new AbortController();
+        let desmontado=false;
+        
+        const getInformacion=async(id)=>{
+            try {
+                
+                await firebase.db.collection("usuarios").doc(id)
+                .get()
+                .then(doc =>{
+                    console.log('consultando')
+                    if (doc.exists) {
+                        const datos=doc.data();
+                        if(!desmontado){
+                            setUsuarioBuscado(datos); 
+                        }
+                                           
+                    } else {
+                        // doc.data() will be undefined in this case
+                        if(!desmontado){
+                            setErrorGetUsuario('El usuario no existe: ' + id);
+                        }
+                        
+                    }
+                })
+                .catch(function(error) {
+                    if(!desmontado){
+                        setErrorGetUsuario('No se pudo encontrar el usuario');
+                    }
+                    
+                });
+            } catch (error) {
+                if(!desmontado){
+                    setErrorGetUsuario('Hubo un error, intente más tarde');
                 }
-            })
-            .catch(function(error) {
-                setErrorGetUsuario('No se pudo encontrar el usuario');
-            });
-        } catch (error) {
-            setErrorGetUsuario('Hubo un error, intente más tarde');
+                
+            }
         }
-    }
-    useEffect(()=>{
-        if(idUsuario){
-            getInformacion(idUsuario);
+        if(idUsuario && !desmontado){
+            getInformacion(idUsuario);  
         }
         
+        return () => {
+            //console.log('abortando desde useUsuario');
+            desmontado=true;
+            ac.abort();
+        } 
     },[idUsuario]);    
     return ( {usuarioBuscado, errorGetUsuario} );
 }

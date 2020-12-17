@@ -40,7 +40,11 @@ const MenuMovil = () => {
                         style={{
                             fontSize: '1.7rem',
                         }}
-                    >Mi perfil</MenuItem>,
+                    >
+                        <Link href={`/usuario/${usuario.usuario.uid}`}>
+                            <a>Mi perfil</a>
+                        </Link>
+                    </MenuItem>,
                     <MenuItem key="nuevo-post-movil" onClick={handleClose}
                     >
                         <Link href="/nuevo-post">

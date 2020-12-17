@@ -33,9 +33,6 @@ const Navbar = () => {
         <nav className="navbar">
             <CssBaseline />
             <Container maxWidth="lg">
-                <Typography
-                component="div"
-                />
                 
                 <div className="navbar-contenido">
                     <Link href="/">                        
@@ -107,6 +104,7 @@ const Navbar = () => {
                     display:flex;
                     justify-content:space-between;
                     align-items:center;
+                    margin-bottom:1.5rem;
                 }
                 
                 .navbar{

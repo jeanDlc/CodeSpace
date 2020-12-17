@@ -11,25 +11,38 @@ const Post = () => {
     const { id } = router.query;
     useEffect(()=>{
         const ac = new AbortController();
+        let desmontado=false;
+        let unsuscribe;
+        const obtenerPost=pid=>{
+            try {
+                unsuscribe=firebase.db.collection('posts').doc(pid)
+                .onSnapshot(doc=>{
+                    console.log(doc.data());
+                    if(!desmontado){
+                        setPost({
+                            idPost: pid,
+                            ...doc.data()
+                        });
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
         if(id){
             obtenerPost(id);
         }
-        return () => ac.abort();
+       return () => {
+            desmontado=true;
+            ac.abort();
+            if(unsuscribe){
+                console.log('desmontando desde post/[id]');
+                unsuscribe()
+            }
+            
+       }
     },[id]);
-    const obtenerPost=pid=>{
-        try {
-            firebase.db.collection('posts').doc(pid)
-            .onSnapshot(doc=>{
-                console.log(doc.data());
-                setPost({
-                    idPost: pid,
-                    ...doc.data()
-                });
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    
     if(!post) return <p>...Loading</p>
     return (
         <Layout>

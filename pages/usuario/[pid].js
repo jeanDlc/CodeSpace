@@ -44,37 +44,48 @@ const Post = () => {
     const {usuarioBuscado, errorGetUsuario}=useUsuario(pid);
 
     useEffect(()=>{
+        let desmontado=false;
         const ac = new AbortController();
-        if(pid && consultarDB){
+        let unsuscribe;
+        //obtiene todos los posts de un usuario
+
+        const obtenerPosts=async(idUsuario)=>{
+            try {
+                
+                unsuscribe = firebase.db.collection('posts').where("idCreador", "==", idUsuario)
+                .onSnapshot(snapshot=>{
+                    let posts=[];
+                    //trae todos los documentos incluso cuando solo uno se actualiza
+                    snapshot.forEach(function(doc) {
+                        const post={
+                            idPost:doc.id,
+                        ...doc.data()
+                        }
+                        posts.push(post);
+                    });
+                    if(!desmontado){
+                        setPostsUsuario(posts);
+                    }
+                    
+                });
+            } catch (error) {
+                mostrarAlertas('Error', 'Hubo un error', 'error');
+                console.log(error);
+            }
+        }
+        if(pid && !desmontado){
             obtenerPosts(pid);
         }
-        return () => ac.abort(); 
+        return () => {
+            desmontado=true;
+            ac.abort();
+            if(unsuscribe){
+                console.log('desmontando desde /usuario[pid]');
+                unsuscribe();
+            }
+        } 
     },[pid]);
-    //obtiene todos los posts de un usuario
-    const obtenerPosts=async(idUsuario)=>{
-        try {
-            
-            const query =await firebase.db.collection('posts').where("idCreador", "==", idUsuario);
-            query.onSnapshot(snapshot=>{
-                let posts=[];
-                //trae todos los documentos incluso cuando solo uno se actualiza
-                snapshot.forEach(function(doc) {
-                    const post={
-                        idPost:doc.id,
-                    ...doc.data()
-                    }
-                    posts.push(post);
-                });
-                setPostsUsuario(posts);
-            });
-            
-            setConsultarDB(false);
-        } catch (error) {
-            setConsultarDB(false);
-            mostrarAlertas('Error', 'Hubo un error', 'error');
-            console.log(error);
-        }
-    }
+    
     if( !usuarioBuscado) return <p>Loading...</p>
     return (
       <Layout>

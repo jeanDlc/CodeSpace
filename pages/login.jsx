@@ -5,7 +5,6 @@ import useValidacion from '../hooks/useValidacion';
 import validarLogin from '../validation/validarLogin';
 import firebase from '../firebase/index';
 import { useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 import mostrarAlertas from '../alertas';
 export default function Login() {

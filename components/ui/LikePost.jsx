@@ -9,15 +9,21 @@ const LikePost = ({idPost,numLikes}) => {
     const [listaPostFavoritos,setListaPostFavoritos]=useState([]);
     const [colorLike, setColorLike]=useState("#444");
     useEffect(()=>{
-        if(usuario){
+        let desmontado=false;
+        if(usuario && desmontado===false){
             
             setListaPostFavoritos(usuario.data.listaIdPostFavoritos);
             
         }
+        return ()=>{
+            console.log('desmontando desde likePost');
+            desmontado=true;
+        }
     },[usuario]);
    
     useEffect(()=>{
-        if(permitirLike){//para evitar que se ejecute más veces de la necesaria
+        let desmontado=false;
+        if(permitirLike && desmontado===false){//para evitar que se ejecute más veces de la necesaria
             const cambiarPreferencia=async()=>{
                 try {
                     await firebase.db.collection('usuarios').doc(usuario.usuario.uid).update({
@@ -29,7 +35,10 @@ const LikePost = ({idPost,numLikes}) => {
             }
             cambiarPreferencia();
         }
-        
+        return ()=>{
+            console.log('desmontando desde likePost 2');
+            desmontado=true;
+        }
     },[listaPostFavoritos]);
     
     const useStyles = makeStyles((theme) => ({

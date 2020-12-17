@@ -13,7 +13,7 @@ export default function MyApp(props) {
   const { Component, pageProps } = props;
 
   const usuario=useAutenticacion();
-  console.log(usuario);
+  
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.

@@ -38,31 +38,38 @@ export default function Home() {
   
   useEffect(()=>{
         const ac = new AbortController();
+        let unsuscribe;
+        const getPosts=async()=>{
+          try {
+            unsuscribe=await firebase.db.collection('posts').orderBy('fecha', 'desc')
+            .onSnapshot(snapshot=>{
+              let posts=[];
+              //trae todos los documentos incluso cuando solo uno se actualiza
+              snapshot.forEach(function(doc) {
+                  const post={
+                      idPost:doc.id,
+                    ...doc.data()
+                  }
+                  posts.push(post);
+              });
+              setListaPosts(posts);
+            });
+      
+          } catch (error) {
+            console.log(error);
+          }
+          
+        }
         getPosts();
-        return () => ac.abort();
+        return () => {
+          ac.abort();
+          if(unsuscribe){
+            console.log('desmontando desde index');
+            unsuscribe();
+          }
+        }
   },[]);
-  const getPosts=async()=>{
-
-    try {
-      const query =await firebase.db.collection('posts').orderBy('fecha', 'desc');
-      query.onSnapshot(snapshot=>{
-        let posts=[];
-        //trae todos los documentos incluso cuando solo uno se actualiza
-        snapshot.forEach(function(doc) {
-            const post={
-                idPost:doc.id,
-              ...doc.data()
-            }
-            posts.push(post);
-        });
-        setListaPosts(posts);
-      });
-
-    } catch (error) {
-      console.log(error);
-    }
-    
-  }
+  
 
   return (
     <>

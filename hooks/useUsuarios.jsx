@@ -19,7 +19,9 @@ const useUsuarios = () => {
         }
     }
     useEffect(()=>{
+        const ac = new AbortController();
         getUsuarios();
+        return () => ac.abort(); 
     },[]);
     return ( usuarios );
 }

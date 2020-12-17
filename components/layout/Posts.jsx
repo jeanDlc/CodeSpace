@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom:'2rem',
         width:'100%',
         padding:'2rem',
-        borderRadius:'1.5rem'
+        borderRadius:'1.5rem',
       },
     },
     tituloPost:{
@@ -29,6 +29,16 @@ const useStyles = makeStyles((theme) => ({
     descripcion:{
         color:'#444',
         margin:'0 0 1rem 0'
+    },
+    contenedorImagen:{
+        backgroundColor:'#444',
+        display:'flex',
+        justifyContent:'center',
+        '& img':{
+            display:'block',
+            heigth:'100%',
+            textAlign:'center'
+        }
     },
     avatar:{
         display:'flex',
@@ -58,7 +68,7 @@ const Posts = ({post}) => {
             <Paper elevation={2}>
                 {usuarioBuscado?
                     <div className={classes.avatar}>
-                        <Avatar alt="Remy Sharp" src={usuarioBuscado.urlFotoPerfil} />
+                        <Avatar alt="Foto perfil" src={usuarioBuscado.urlFotoPerfil} />
                         <Link href={`/usuario/${idCreador}`}>
                             <a>{usuarioBuscado.nombre} {usuarioBuscado.apellido}</a>
                         </Link>
@@ -67,18 +77,18 @@ const Posts = ({post}) => {
             
                 {url? (
                     <h2 className={classes.tituloPost}>
-                        <Link href={url}>
-                            <a className={classes.tituloPost}>{titulo} </a>
-                        </Link>
+                        <a href={url} target="_blank" className={classes.tituloPost}>{titulo} </a>
                     </h2>
                 ):
                     <h2 className={classes.tituloPost} >{titulo}</h2>
                 }
-                <Link href={`/post/${idPost}`}>
-                    <a>Go to post</a>
-                </Link>
                 <p className={classes.descripcion} >{descripcion} </p>
-                <img src={urlImagen} alt="Imagen"/>                
+                <div className={classes.contenedorImagen}>
+                    <Link href={`/post/${idPost}`}>
+                        <a><img src={urlImagen} alt="Imagen"/></a>
+                    </Link>
+                </div>
+                             
                 <LikePost idPost={idPost} numLikes={numLikes} />
                 <ComentariosPosts idPost={idPost} comentarios={comentarios} />
             </Paper>

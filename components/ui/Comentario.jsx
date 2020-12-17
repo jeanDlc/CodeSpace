@@ -45,7 +45,7 @@ const Comentario = ({comentario}) => {
             <div className={classes.usuario}>
                 <Avatar alt="foto" src={comentario.fotoUsuario} />                
                 <div className={classes.infoUsuario} >
-                    <Link href={`usuario/${comentario.idUsuario}`}>
+                    <Link href={`/usuario/${comentario.idUsuario}`}>
                         <a className={classes.nombreUser}>
                             {comentario.nombreUsuario} {comentario.apellidoUsuario} 
                         </a>
