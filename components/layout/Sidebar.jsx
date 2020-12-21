@@ -15,13 +15,16 @@ const useStyles = makeStyles((theme) => ({
       '& p':{
         marginLeft:'2rem'
       }
+    },
+    sidebar:{
+      marginTop:'1rem'
     }
   }));
 const Sidebar = () => {
     const classes = useStyles();
     const {usuario}=useContext(FirebaseContext);
     return ( 
-        <aside>
+        <aside className={classes.sidebar} >
             <Paper className={classes.paper}>
                 {usuario && usuario.data.urlFotoPerfil && usuario.data.nombre!==null  ? 
                 <div className={classes.avatar}>

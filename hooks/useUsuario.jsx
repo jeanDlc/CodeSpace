@@ -15,7 +15,6 @@ const useUsuario = idUsuario => {
                 await firebase.db.collection("usuarios").doc(id)
                 .get()
                 .then(doc =>{
-                    console.log('consultando')
                     if (doc.exists) {
                         const datos=doc.data();
                         if(!desmontado){

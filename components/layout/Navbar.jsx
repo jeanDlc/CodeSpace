@@ -7,7 +7,7 @@ import Link from 'next/link';
 import firebase,{FirebaseContext} from '../../firebase/index';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-
+import Buscador from '../ui/Buscador';
 const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {
@@ -50,12 +50,8 @@ const Navbar = () => {
                             </a>
                         </Link>
                     </h1>
-                    <div className="buscador">
-                        <input type="text" placeholder="Buscar algo.."/>
-                        <div className="lupa">                            
-                            &#x2315;
-                        </div>
-                    </div>                    
+                    <Buscador/>
+                                      
                     <div className="menuDeEscritorio">  
                         <Link href="/creadores">
                             <a>Creadores</a>
@@ -104,7 +100,6 @@ const Navbar = () => {
                     display:flex;
                     justify-content:space-between;
                     align-items:center;
-                    margin-bottom:1.5rem;
                 }
                 
                 .navbar{
@@ -140,20 +135,10 @@ const Navbar = () => {
                     font-weight:700;
                     font-size:5rem;                    
                 }
-                .buscador{
-                    position:relative;
-                }
-                .lupa{
-                    position:absolute;
-                    right:1rem;
-                    top:1rem;
-                    font-size:1.5rem;
-                    color:var(--colorPrincipal);
-                }
                 .menuDeEscritorio{
                     display:none;
                 }
-                @media(min-width:768px){                    
+                @media(min-width:768px){
                     .menuDeEscritorio{
                         display:flex;
                         justify-content:space-between;
@@ -165,20 +150,6 @@ const Navbar = () => {
                     .titulo-movil{
                         display:none;
                     }
-                }
-                .buscador input:focus{
-                    border:2px solid #e5abf3;
-                }
-                @media(max-width:768px){
-                    .buscador{
-                        flex: 1 0 calc(70% - 1rem);
-                        
-                    }
-                    .buscador input{
-                        width:95%;
-                        margin-left:1.5rem;
-                    }
-                    
                 }
             `}</style>      
         </nav>

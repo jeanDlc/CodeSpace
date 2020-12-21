@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import SendIcon from '@material-ui/icons/Send';
 import { makeStyles } from '@material-ui/core/styles';
 import useValidacion from '../../hooks/useValidacion';
@@ -20,10 +20,28 @@ const useStyles = makeStyles((theme) => ({
         listStyle:'none',
         padding:0
     },
+    btnVerComentario:{
+        border:'none',
+        margin: '1.3rem 0',
+        backgroundColor:'var(--colorSecundario)',
+        color:'white',
+        padding:'1rem',
+        borderRadius:'1rem',
+        transition:'all .3s ease-out',
+        cursor:'pointer',
+        '&:hover':{
+            backgroundColor:'var(--colorPrincipal)'
+        }
+    }
   }));
 /**Componente principal************************************************** */
 const ComentariosPost = ({idPost, comentarios}) => {
+
+    //decide si mostrar o no los comentarios
+    const [verComentarios, setVerComentarios]=useState(false);
+
     const {usuario}=useContext(FirebaseContext);
+    
     //state inicial para el hook personalizado: useValidacion
     const STATE_INICIAL={
         comentario:''
@@ -41,6 +59,7 @@ const ComentariosPost = ({idPost, comentarios}) => {
             await firebase.db.collection('posts').doc(idPost).update({
                 comentarios: [ miComentario , ...comentarios ]
             })
+            setVerComentarios(true);
         } catch (error) {
             console.log(error);
             alertas('Error','No se pudo enviar tu comentario','error');
@@ -51,7 +70,6 @@ const ComentariosPost = ({idPost, comentarios}) => {
     const {
         errores,
         valores,
-        submitForm,
         handleChange,
         handleSubmit,
     }=useValidacion(STATE_INICIAL, validarComentario, enviarComentario);
@@ -85,13 +103,20 @@ const ComentariosPost = ({idPost, comentarios}) => {
                     }
                 }} />
             </form>
-            <ul className={classes.listaComentarios}>
-                {comentarios.map((comentario,i)=>(
-                    <Comentario 
-                        key={`${i}-${comentario.idUsuario}`}
-                        comentario={comentario} />
-                ))}
-            </ul>
+            <button 
+                className={classes.btnVerComentario}
+                onClick={()=>{setVerComentarios(!verComentarios)}} >
+                {comentarios.length} comentarios
+            </button>
+            {verComentarios && (
+                <ul className={classes.listaComentarios}>
+                    {comentarios.map((comentario,i)=>(
+                        <Comentario 
+                            key={`${i}-${comentario.idUsuario}`}
+                            comentario={comentario} />
+                    ))}
+                </ul>
+            )}
         </div>
      );
 }
