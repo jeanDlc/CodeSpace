@@ -23,22 +23,20 @@ const useStyles = makeStyles((theme) => ({
 const Sidebar = () => {
     const classes = useStyles();
     const {usuario}=useContext(FirebaseContext);
+    if(!usuario) return (<aside>
+          <Paper className={classes.paper}>
+              <Link href="/login">
+                  <a>Inicia sesión</a>
+              </Link>
+          </Paper>
+      </aside>)
     return ( 
         <aside className={classes.sidebar} >
             <Paper className={classes.paper}>
-                {usuario && usuario.data.urlFotoPerfil && usuario.data.nombre!==null  ? 
-                <div className={classes.avatar}>
-                    <Avatar alt="Foto de perfil" src={usuario.data.urlFotoPerfil} />
-                    <p>Bienvenido {usuario.data.nombre} </p>
-                </div>
-                : null
-                }
-                {!usuario?
-                <Link href="/login">
-                    <a>Inicia sesión</a>
-                </Link>
-                : null
-                }
+              <div className={classes.avatar}>
+                  <Avatar alt="Foto de perfil" src={usuario.data.urlFotoPerfil} />
+                  <p>Bienvenido {usuario.data.nombre} </p>
+              </div>
             </Paper>
         </aside>
      );

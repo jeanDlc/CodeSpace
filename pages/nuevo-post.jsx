@@ -70,7 +70,9 @@ export default function NuevoPost() {
         numLikes:0,
         comentarios:[]
       }
+      //crear un post en la BBDD
       await firebase.db.collection('posts').add(post);
+
       mostrarAlertas('Éxito', 'Se guardó correctamente', 'success');
       router.push('/');
     } catch (error) {

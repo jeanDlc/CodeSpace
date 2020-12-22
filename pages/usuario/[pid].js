@@ -14,6 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import BtnSeguir from '../../components/ui/BtnSeguir';
+import Descripcion from '../../components/ui/Descripcion';
 const useStyles = makeStyles((theme) => ({
     
     contenedorPerfil:{
@@ -102,22 +103,18 @@ const Post = () => {
                 <Grid item xs={12} sm={8}>                        
                     <Paper className={classes.contenedorInfo} >
                         <section>
-                            {usuarioBuscado.descripcion!==''?
-                                <p>Descripción {usuarioBuscado.descripcion} </p>
-                                :
-                                null   
-                            }
                             <p>
                                 Seguidores: {usuarioBuscado.numSeguidores}
                             </p>
                             <p>
-                                Publicaciones: {usuarioBuscado.listaIdPostsPropios.length} 
+                                Publicaciones: {postsUsuario.length} 
                             </p>
                             <p>
                                 Seguidos {usuarioBuscado.listaIdSeguidos.length} <FavoriteIcon/>
                             </p>
                         </section>
                     </Paper>
+                    <Descripcion idUsuario={pid} descripcion={usuarioBuscado.descripcion} />
                     {postsUsuario.map(post=>(
                         <Posts key={post.idPost} post={post} />
                     ))}
