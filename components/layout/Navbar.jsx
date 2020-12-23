@@ -1,6 +1,6 @@
 import React,{useContext} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
+import { useRouter } from 'next/router';
 import Container from '@material-ui/core/Container';
 import MenuMovil from './MenuMovil';
 import Link from 'next/link';
@@ -25,10 +25,16 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Navbar = () => {
+    const router = useRouter();
+
+    //estilos
     const classes = useStyles();
 
     const {usuario}=useContext(FirebaseContext);
-
+    const cerrarSesion=()=>{        
+        firebase.cerrarSesion();
+        router.push('/login');
+    }
     return ( 
         <nav className="navbar">
             <CssBaseline />
@@ -66,7 +72,7 @@ const Navbar = () => {
                                 </Link>,
                                 <div key="cerrar-sesion" className={classes.root}>                                    
                                     <Button variant="contained"
-                                        onClick={()=>firebase.cerrarSesion()}
+                                        onClick={cerrarSesion}
                                     >
                                         Cerrar sesión
                                     </Button>

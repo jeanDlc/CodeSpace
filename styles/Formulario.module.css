@@ -22,8 +22,9 @@
     margin-bottom: 1rem;
 }
 .formGroup input:focus , .formGroup textarea:focus{
-    border: 1.7px solid #a3ccda;
+    border: 1.9px solid #a3ccda!important;
 }
+
 .formGroup textarea{
     display: block;
     height: 15rem;

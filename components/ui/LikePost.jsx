@@ -2,44 +2,11 @@ import React,{useState, useContext,useEffect} from 'react';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import { makeStyles } from '@material-ui/core/styles';
 import firebase, {FirebaseContext} from '../../firebase/index';
-
-const LikePost = ({idPost,numLikes}) => { 
+import mostrarAlertas from '../../alertas';
+const LikePost = ({idPost,idUserLikes}) => { 
     const {usuario}=useContext(FirebaseContext);
-    const [permitirLike,setPermitirLike]=useState(false);
-    const [listaPostFavoritos,setListaPostFavoritos]=useState([]);
     const [colorLike, setColorLike]=useState("#444");
-    useEffect(()=>{
-        let desmontado=false;
-        if(usuario && desmontado===false){
-            
-            setListaPostFavoritos(usuario.data.listaIdPostFavoritos);
-            
-        }
-        return ()=>{
-            console.log('desmontando desde likePost');
-            desmontado=true;
-        }
-    },[usuario]);
-   
-    useEffect(()=>{
-        let desmontado=false;
-        if(permitirLike && desmontado===false){//para evitar que se ejecute más veces de la necesaria
-            const cambiarPreferencia=async()=>{
-                try {
-                    await firebase.db.collection('usuarios').doc(usuario.usuario.uid).update({
-                        listaIdPostFavoritos:listaPostFavoritos
-                    });
-                } catch (error) {
-                    console.log(error); 
-                }
-            }
-            cambiarPreferencia();
-        }
-        return ()=>{
-            console.log('desmontando desde likePost 2');
-            desmontado=true;
-        }
-    },[listaPostFavoritos]);
+    
     
     const useStyles = makeStyles((theme) => ({
         icono:{
@@ -61,24 +28,29 @@ const LikePost = ({idPost,numLikes}) => {
       }));
     const classes = useStyles();
     const like=()=>{
-        setPermitirLike(true);
-        if(listaPostFavoritos.includes(idPost)){
+        if(!usuario){
+            mostrarAlertas('Inicia sesión', 'Para poder dar like, debes iniciar sesión primero', 'info');
+            return;
+        };
+        if(idUserLikes.includes(usuario.usuario.uid)){
             desmarcarComoFavorito();
         }else{
             marcarComoFavorito();
         }
     }
+    useEffect(()=>{
+        if(usuario && idUserLikes.includes(usuario.usuario.uid)){
+            setColorLike("var(--colorSecundario)");
+        }else{
+            setColorLike("#444");
+        }
+    },[idUserLikes, usuario]);
     const marcarComoFavorito=async()=>{
-
+        console.log('marcando como favorito');
         try {
             await firebase.db.collection('posts').doc(idPost).update({
-                numLikes:numLikes+1
+                idUserLikes:firebase.fieldValue.arrayUnion(usuario.usuario.uid)
             });
-            setListaPostFavoritos([
-                ...listaPostFavoritos,
-                idPost
-            ]);
-            setColorLike("var(--colorSecundario)");
             
         } catch (error) {
             console.log(error);
@@ -90,19 +62,17 @@ const LikePost = ({idPost,numLikes}) => {
         console.log('desmarcando');
         try {
             await firebase.db.collection('posts').doc(idPost).update({
-                numLikes:numLikes-1
+                idUserLikes:firebase.fieldValue.arrayRemove(usuario.usuario.uid)
             });
-            const quitarPost=listaPostFavoritos.filter(id=>id!==idPost);
-            setListaPostFavoritos(quitarPost);
-            setColorLike("#444");
             
         } catch (error) {
             console.log(error);
         }
     }
+    //if(!usuario) return null;
     return ( 
         <div className={classes.icono} >
-            <span className={classes.cantLikes} >{numLikes}</span>
+            <span className={classes.cantLikes} >{idUserLikes.length}</span>
             <ThumbUpAltIcon onClick={like}  style={{ 
                 fontSize: '2.5rem',
                 transition:'all .3s ease-out',

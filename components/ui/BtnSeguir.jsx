@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Button from '@material-ui/core/Button';
@@ -17,24 +17,31 @@ const useStyles = makeStyles((theme) => ({
         
     },
   }));
-const BtnSeguir = ({idUsuario}) => {
+const BtnSeguir = ({idUsuario,usuarioBuscado}) => {
+    const [btnText, setBtnText]=useState('Dejar de Seguir');
+    //usuario actual
     const {usuario}=useContext(FirebaseContext);
+
+    //estilos
     const classes = useStyles();
+
+    //seguir a otro usuario
     const seguir=async()=>{
         //verificar si el usuario ya está seguido
-        if(listaIdSeguidos.includes(idUsuario)){
+        if(usuarioBuscado.idUserSeguidores.includes(uid)){
             dejarDeSeguir();
         }else{
             try {
                 //seguir al usuario
-                //aumentar el numSeguidores del usuario visitado
+                //agregar al usuario actual como uno de los seguidores del otro usuario
                 await firebase.db.collection('usuarios').doc(idUsuario).update({
-                    numSeguidores: firebase.fieldValue.increment(1)
+                    idUserSeguidores:firebase.fieldValue.arrayUnion(uid)
                 });
-                //agregarlo a mi lista de seguidos
+                //actualizar los "seguidos" del usuario actual
                 await firebase.db.collection('usuarios').doc(uid).update({
-                    listaIdSeguidos:[idUsuario, ...listaIdSeguidos]
+                    idUserSeguidos:firebase.fieldValue.arrayUnion(idUsuario)
                 });
+                setBtnText('Dejar se seguir');
                 mostrarAlertas('Seguido', 'Ahora eres seguidor de esta persona', 'success');
             } catch (error) {
                 console.log(error);
@@ -46,24 +53,37 @@ const BtnSeguir = ({idUsuario}) => {
     const dejarDeSeguir=async()=>{
         try {
             //dejar de seguir al usuario
-            //disminuir el numSeguidores del usuario visitado
+            //remover al usuario actual como uno de los seguidores del otro usuario
             await firebase.db.collection('usuarios').doc(idUsuario).update({
-                numSeguidores: firebase.fieldValue.increment(-1)
+                idUserSeguidores:firebase.fieldValue.arrayRemove(uid)
             });
-            //removerlo de mi lista de seguidos
+            //actualizar los "seguidos" del usuario actual
             await firebase.db.collection('usuarios').doc(uid).update({
-                listaIdSeguidos:firebase.fieldValue.arrayRemove(idUsuario)
+                idUserSeguidos:firebase.fieldValue.arrayRemove(idUsuario)
             });
             mostrarAlertas('Hecho', 'Dejaste de seguir esta persona', 'success');
+            setBtnText('Seguir');
         } catch (error) {
             console.log(error);
             mostrarAlertas('Error', 'Hubo un error, lo solucionaremos', 'error');
         }
     }
+    useEffect(()=>{
+        
+        if(usuarioBuscado && usuario){
+            if(usuarioBuscado.idUserSeguidores.includes(uid)){
+                setBtnText('Dejar de seguir');
+            }else{
+                setBtnText('Seguir');
+            }
+        }
+    },[usuarioBuscado, usuario]);
     //el usuario autenticado no puede seguirse a sí mismo:
     if(usuario===null || usuario.usuario.uid==idUsuario) return null;
-    const {usuario:{uid}, data:{listaIdSeguidos}}=usuario;
+    //información del usuario actual
+    const {usuario:{uid}}=usuario;
 
+    
 
     return (
         <Button 
@@ -71,9 +91,7 @@ const BtnSeguir = ({idUsuario}) => {
             className={classes.btnSeguir}
             onClick={seguir}
         >
-            {listaIdSeguidos.includes(idUsuario)? 'Dejar de Seguir': 
-                'Seguir'
-            } <FavoriteIcon/>
+            {btnText} <FavoriteIcon/>
         </Button>
     )
 }

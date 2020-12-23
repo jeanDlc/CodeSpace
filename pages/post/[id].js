@@ -17,7 +17,6 @@ const Post = () => {
             try {
                 unsuscribe=firebase.db.collection('posts').doc(pid)
                 .onSnapshot(doc=>{
-                    console.log(doc.data());
                     if(!desmontado){
                         setPost({
                             idPost: pid,

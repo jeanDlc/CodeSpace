@@ -35,12 +35,10 @@ class Firebase{
             apellido,
             email,
             descripcion:'',
-            numSeguidores:0,
-            listaIdSeguidos:[],
+            idUserSeguidos:[],
+            idUserSeguidores:[],
             urlFotoPerfil:fotoDefault,
             urlFotoPortada:'',
-            listaIdPostFavoritos:[],
-            listaIdPostsPropios:[]
         }
         console.log(usuario);
         return await this.db.collection('usuarios').doc(id).set(usuario);

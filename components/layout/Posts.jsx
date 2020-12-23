@@ -57,7 +57,7 @@ const Posts = ({post}) => {
     const classes = useStyles();
 
     /**Información traída de la BBDD */
-    const {titulo, comentarios, numLikes,fecha, descripcion,idCreador,url,urlImagen,idPost}=post;
+    const {titulo, comentarios, idUserLikes,fecha, descripcion,idCreador,url,urlImagen,idPost}=post;
     
     const {usuarioBuscado, errorGetUsuario}=useUsuario(idCreador);
 
@@ -89,7 +89,7 @@ const Posts = ({post}) => {
                     </Link>
                 </div>
                              
-                <LikePost idPost={idPost} numLikes={numLikes} />
+                <LikePost idPost={idPost} idUserLikes={idUserLikes} />
                 <ComentariosPosts idPost={idPost} comentarios={comentarios} />
             </Paper>
         </div>

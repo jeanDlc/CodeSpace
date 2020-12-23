@@ -8,10 +8,23 @@ const useUsuario = idUsuario => {
     useEffect(()=>{ 
         const ac = new AbortController();
         let desmontado=false;
-        
+        let unsuscribe;
         const getInformacion=async(id)=>{
             try {
-                
+                unsuscribe=await firebase.db.collection("usuarios").doc(id)
+                .onSnapshot(doc=>{
+                    const datos=doc.data();
+                    if(!desmontado){
+                        setUsuarioBuscado(datos); 
+                    }
+                    
+                }).catch(error=>{
+                    if(!desmontado){
+                        setErrorGetUsuario('No se pudo encontrar el usuario');
+                    }
+                    
+                })
+                /*
                 await firebase.db.collection("usuarios").doc(id)
                 .get()
                 .then(doc =>{
@@ -34,7 +47,7 @@ const useUsuario = idUsuario => {
                         setErrorGetUsuario('No se pudo encontrar el usuario');
                     }
                     
-                });
+                });*/
             } catch (error) {
                 if(!desmontado){
                     setErrorGetUsuario('Hubo un error, intente más tarde');
@@ -47,9 +60,13 @@ const useUsuario = idUsuario => {
         }
         
         return () => {
-            //console.log('abortando desde useUsuario');
             desmontado=true;
             ac.abort();
+            if(unsuscribe){
+                console.log('abortando desde useUsuario');
+                unsuscribe();
+                
+            }
         } 
     },[idUsuario]);    
     return ( {usuarioBuscado, errorGetUsuario} );

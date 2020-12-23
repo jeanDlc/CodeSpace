@@ -44,6 +44,9 @@ h3,h4{
 img{
   max-width: 100%;
 }
+ul{
+  padding: 0;
+}
 li{
   font-size: 1.7rem;
 }
@@ -53,6 +56,9 @@ input,textarea{
   color: rgb(102, 102, 102);
   font-size: 1.5rem;
   padding: 1rem;
+}
+input:focus , textarea:focus{
+  outline: none;
 }
 .text-center{
   text-align: center;

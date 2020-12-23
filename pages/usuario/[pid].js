@@ -104,13 +104,13 @@ const Post = () => {
                     <Paper className={classes.contenedorInfo} >
                         <section>
                             <p>
-                                Seguidores: {usuarioBuscado.numSeguidores}
+                                Seguidores: {usuarioBuscado.idUserSeguidores.length}
                             </p>
                             <p>
                                 Publicaciones: {postsUsuario.length} 
                             </p>
                             <p>
-                                Seguidos {usuarioBuscado.listaIdSeguidos.length} <FavoriteIcon/>
+                                Seguidos {usuarioBuscado.idUserSeguidos.length} <FavoriteIcon/>
                             </p>
                         </section>
                     </Paper>
@@ -120,7 +120,10 @@ const Post = () => {
                     ))}
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                        <BtnSeguir idUsuario={pid} />
+                        <BtnSeguir 
+                            idUsuario={pid} 
+                            usuarioBuscado={usuarioBuscado} 
+                        />
                         {usuario && usuario.usuario.uid===usuarioBuscado.idAuth?(
                             <Sidebar/>
                         ) : null}

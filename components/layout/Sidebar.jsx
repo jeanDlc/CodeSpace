@@ -4,6 +4,8 @@ import {FirebaseContext} from '../../firebase/index';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Link from 'next/link';
+import ModalSeguidos from './ModalSeguidos';
+import ModalSeguidores from './ModalSeguidores';
 const useStyles = makeStyles((theme) => ({
     paper: {
       padding: theme.spacing(2),
@@ -37,6 +39,13 @@ const Sidebar = () => {
                   <Avatar alt="Foto de perfil" src={usuario.data.urlFotoPerfil} />
                   <p>Bienvenido {usuario.data.nombre} </p>
               </div>
+              <div>
+                <Link href="/posts-favoritos">
+                    <a>Mis posts favoritos</a>
+                </Link>
+              </div>
+              <ModalSeguidos/>
+              <ModalSeguidores/>
             </Paper>
         </aside>
      );

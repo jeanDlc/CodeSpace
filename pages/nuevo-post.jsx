@@ -67,7 +67,7 @@ export default function NuevoPost() {
         descripcion,
         url,
         urlImagen,
-        numLikes:0,
+        idUserLikes:[],
         comentarios:[]
       }
       //crear un post en la BBDD
