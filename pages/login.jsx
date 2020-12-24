@@ -7,6 +7,7 @@ import firebase from '../firebase/index';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import mostrarAlertas from '../alertas';
+import Button from '@material-ui/core/Button';
 export default function Login() {
   const router=useRouter();
 
@@ -76,8 +77,14 @@ export default function Login() {
                     onChange={handleChange}
                   />
                   {errores.password && <p className={styles.errorValidacion}>{errores.password} </p>}
-              </div>              
-              <button type="submit" className={styles.btnSubmit} >Listo</button>
+              </div>     
+              <div className={styles.formGroup}>
+                <Button 
+                  type="submit"
+                  color="secondary"
+                  variant="contained" 
+                >Listo</Button>
+              </div>
               <Link href="/registro">
                   <a className={styles.enlace}>Crea una nueva cuenta</a>
               </Link>

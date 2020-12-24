@@ -7,7 +7,8 @@ import validarRegistro from '../validation/validarRegistro';
 import firebase from '../firebase/index';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import mostrarAlertas from '../alertas';
+import mostrarAlertas from '../alertas'; 
+import Button from '@material-ui/core/Button';
 export default function Registro() {  
   const router=useRouter();
 
@@ -99,8 +100,14 @@ export default function Registro() {
                   />
                   {errores.password && <p className={styles.errorValidacion}>{errores.password} </p>}
               </div>
+              <div className={styles.formGroup}>
+                <Button 
+                  type="submit"
+                  color="secondary"
+                  variant="contained" 
+                >Listo</Button>
+              </div>
               
-              <button type="submit" className={styles.btnSubmit} >Listo</button>
               <Link href="/login">
                   <a className={styles.enlace}>¿Ya tienes una cuenta?</a>
               </Link>

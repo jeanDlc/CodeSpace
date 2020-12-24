@@ -6,6 +6,7 @@ import validarComentario from '../../validation/validarComentario';
 import firebase,{FirebaseContext} from '../../firebase/index';
 import alertas from '../../alertas';
 import Comentario from './Comentario';
+import Button from '@material-ui/core/Button';
 /**Estilos de material ui******************************************* */
 const useStyles = makeStyles((theme) => ({
     envioComentario: {
@@ -21,17 +22,7 @@ const useStyles = makeStyles((theme) => ({
         padding:0
     },
     btnVerComentario:{
-        border:'none',
         margin: '1.3rem 0',
-        backgroundColor:'var(--colorSecundario)',
-        color:'white',
-        padding:'1rem',
-        borderRadius:'1rem',
-        transition:'all .3s ease-out',
-        cursor:'pointer',
-        '&:hover':{
-            backgroundColor:'var(--colorPrincipal)'
-        }
     }
   }));
 /**Componente principal************************************************** */
@@ -103,11 +94,13 @@ const ComentariosPost = ({idPost, comentarios}) => {
                     }
                 }} />
             </form>
-            <button 
+            <Button 
+                color="primary"
+                variant="contained"
                 className={classes.btnVerComentario}
                 onClick={()=>{setVerComentarios(!verComentarios)}} >
                 {comentarios.length} comentarios
-            </button>
+            </Button>
             {verComentarios && (
                 <ul className={classes.listaComentarios}>
                     {comentarios.map((comentario,i)=>(

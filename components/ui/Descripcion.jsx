@@ -5,6 +5,7 @@ import styles from '../../styles/Formulario.module.css';
 import { makeStyles } from '@material-ui/core/styles';
 import firebase from '../../firebase/index';
 import mostrarAlertas from '../../alertas';
+import Button from '@material-ui/core/Button';
 /**Estilos de material UI **********************/
 const useStyles = makeStyles((theme) => ({
     contenedorPrincipal: {
@@ -70,7 +71,13 @@ const Descripcion = ({idUsuario, descripcion}) => {
                                 >
                                 </textarea>
                             </div>
-                            <button type="submit" className={styles.btnSubmit}>Publicar</button>
+                            <div className={styles.formGroup}>
+                                <Button 
+                                type="submit"
+                                color="secondary"
+                                variant="contained"
+                                >Publicar</Button>
+                            </div>
                         </form>
                     </div>
                 )}

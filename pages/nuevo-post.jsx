@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {FirebaseContext} from '../firebase/index';
 import mostrarAlertas from '../alertas';
-
+import Button from '@material-ui/core/Button';
 /**Estilos de material UI **********************/
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -194,7 +194,13 @@ export default function NuevoPost() {
                     <CircularProgress />
                   </div>
                   :
-                  <button type="submit" className={styles.btnSubmit} >Listo</button>
+                  <div className={styles.formGroup}>
+                    <Button 
+                      type="submit"
+                      color="secondary"
+                      variant="contained" 
+                    >Listo</Button>
+                  </div>
                 }
                 
                 <Link href="/login">

@@ -3,41 +3,52 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import firebase, {FirebaseContext} from '../../firebase/index';
 import LiStyleUsuario from './LiStyleUsuario';
-function rand() {
-    return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
-
-    return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-    };
-}
-
+import Button from '@material-ui/core/Button';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 const useStyles = makeStyles((theme) => ({
     paper: {
-        position: 'absolute',
+        //position: 'absolute',
+        [theme.breakpoints.down('sm')]: {
+            width: '95%',  
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: 450,  
+        },
+        maxHeight: 500,
+        overflowY: 'auto',
         width: 400,
-        backgroundColor: 'var(--colorSecundario)',
+        backgroundColor: '#3588a3cc',
         boxShadow: theme.shadows[10],
         padding: theme.spacing(2),
-        borderRadius:'.5rem'
+        borderRadius:'.5rem',
+        border:'2px solid white'
     },
+    modal:{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    titulo:{
+        textTransform:'uppercase',
+        fontFamily:'var(--fuentePrincipal)',
+        fontSize:'2rem',
+        color:'white',
+        textAlign:'center',
+        marginTop:'1rem',
+        '& svg':{
+            fontSize:'2.2rem'
+        }
+    }
 }));
 
 const ModalSeguidos = () => {
     const {usuario}=useContext(FirebaseContext);
-    const [seguidores,setSeguidores]=useState([]);
+    const [seguidos,setSeguidos]=useState([]);
     
     
     const classes = useStyles();
     
-    // getModalStyle is not a pure function, we roll the style only on the first render
-    const [modalStyle] = React.useState(getModalStyle);
+
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => {
@@ -50,9 +61,9 @@ const ModalSeguidos = () => {
     useEffect(()=>{
         let unsuscribe;
         let desmontado=false;
-        const getSeguidores=async()=>{
+        const getSeguidos=async()=>{
             try {
-                await firebase.db.collection('usuarios').where('idUserSeguidores',"array-contains", usuario.usuario.uid).get()
+                unsuscribe=await firebase.db.collection('usuarios').where('idUserSeguidores',"array-contains", usuario.usuario.uid).get()
                 .then(querySnapshot=> {
                     let resultados=[];
                     querySnapshot.forEach(doc=> {
@@ -63,7 +74,7 @@ const ModalSeguidos = () => {
                         });
                     });
                     if(!desmontado){
-                        setSeguidores(resultados);
+                        setSeguidos(resultados);
                     }
                 })
             
@@ -72,7 +83,7 @@ const ModalSeguidos = () => {
             }
         }
       if(usuario && open ){
-          getSeguidores();
+          getSeguidos();
       }
       return ()=>{
         desmontado=true;
@@ -81,22 +92,31 @@ const ModalSeguidos = () => {
         }
       }
   },[open]);
-  console.log(seguidores);
     return ( 
         <div>
-            <button type="button" onClick={handleOpen}>
+            <Button 
+                color="primary"
+                variant="contained"
+                fullWidth={true} 
+                type="button" 
+                onClick={handleOpen}
+            >
                 Seguidos
-            </button>
+            </Button>
             <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
+                className={classes.modal}
             >
-                <div style={modalStyle} className={classes.paper}>
+                <div className={classes.paper}>
+                    <h2 className={classes.titulo} id="simple-modal-title" >
+                        {seguidos.length}  Seguidos <FavoriteIcon/>
+                    </h2>
                     <ul>
-                        {seguidores.map(seguidor=>(
-                            <LiStyleUsuario usuario={seguidor} key={seguidor.idUsuario} />
+                        {seguidos.map(seguido=>(
+                            <LiStyleUsuario usuario={seguido} key={seguido.idUsuario} />
                         ))}
                     </ul>
                 </div>
