@@ -15,6 +15,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import BtnSeguir from '../../components/ui/BtnSeguir';
 import Descripcion from '../../components/ui/Descripcion';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     
     contenedorPerfil:{
@@ -28,15 +30,17 @@ const useStyles = makeStyles((theme) => ({
             marginBottom:'1.5rem',
             display:'flex',
             justifyContent:'space-around',
-            color:'white'
+            color:'white',
+            flexWrap:'wrap'
         }
     },
   }));
 const Post = () => {
+    const theme = useTheme();
+    const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
     const classes = useStyles();
     const [postsUsuario, setPostsUsuario]=useState([]);
     const {usuario}=useContext(FirebaseContext);
-    const [consultarDB,setConsultarDB]=useState(true);
     const router = useRouter();
 
     //el id de usuario que llega por get
@@ -99,8 +103,13 @@ const Post = () => {
                 urlFotoPerfil={usuarioBuscado.urlFotoPerfil}
                 urlFotoPortada={usuarioBuscado.urlFotoPortada}
             />
-            <Grid container spacing={2} className={classes.contenedorPerfil} >
-                <Grid item xs={12} sm={8}>                        
+            <Grid container
+                spacing={2} 
+                className={classes.contenedorPerfil}
+                >
+                
+                <Grid item xs={12}  md={8}  >     
+                                   
                     <Paper className={classes.contenedorInfo} >
                         <section>
                             <p>
@@ -115,16 +124,18 @@ const Post = () => {
                         </section>
                     </Paper>
                     <Descripcion idUsuario={pid} descripcion={usuarioBuscado.descripcion} />
+                    
                     {postsUsuario.map(post=>(
                         <Posts key={post.idPost} post={post} />
                     ))}
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                
+                <Grid item xs={12}  md={4}>
                         <BtnSeguir 
                             idUsuario={pid} 
                             usuarioBuscado={usuarioBuscado} 
                         />
-                        {usuario && usuario.usuario.uid===usuarioBuscado.idAuth?(
+                        {usuario && usuario.usuario.uid===usuarioBuscado.idAuth && bigScreen?(
                             <Sidebar/>
                         ) : null}
                 </Grid>

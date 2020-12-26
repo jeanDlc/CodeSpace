@@ -9,6 +9,7 @@ import ModalSeguidores from './ModalSeguidores';
 import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { useRouter } from 'next/router';
+/**Estilos************************************************** */
 const useStyles = makeStyles((theme) => ({
     paper: {
       padding: theme.spacing(2),
@@ -35,10 +36,12 @@ const useStyles = makeStyles((theme) => ({
       }
     }
   }));
+  /**Componente ********************************************* */
 const Sidebar = () => {
     const classes = useStyles();
     const {usuario}=useContext(FirebaseContext);
     const router=useRouter();
+    
     if(!usuario) return (<aside>
           <Paper className={classes.paper}>
               <Link href="/login">

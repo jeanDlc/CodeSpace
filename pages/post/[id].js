@@ -47,6 +47,7 @@ const Post = () => {
         <Layout>
             <CssBaseline />
                 <Container maxWidth="sm">
+                    <br/>
                     <Posts key={post.idPost} post={post} />
                 </Container>
             
