@@ -84,8 +84,9 @@ const Post = () => {
         return () => {
             desmontado=true;
             ac.abort();
+            console.log('desmontando desde usuario/[pid]');
             if(unsuscribe){
-                console.log('desmontando desde /usuario[pid]');
+                console.log('desmontando desde usuario/[pid]');
                 unsuscribe();
             }
         } 

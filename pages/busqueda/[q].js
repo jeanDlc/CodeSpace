@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     padding:'1rem',
     borderRadius:'.8rem',
   },
+  contenedor:{
+    marginTop:'7rem'
+  },
 }));
 /**Componente principal******************************************************* */
 const Busqueda = () => {
@@ -43,7 +46,7 @@ const Busqueda = () => {
   return (
     <Layout>
       <CssBaseline />
-      <Container maxWidth="md">
+      <Container maxWidth="md" className={classes.contenedor} >
         <Grid container spacing={2}>
             <Grid item xs={12} sm={8}>                        
               {resultados.length>0?

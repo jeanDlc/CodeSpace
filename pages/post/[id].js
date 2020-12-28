@@ -5,7 +5,15 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import firebase from '../../firebase/index';
 import Posts from '../../components/layout/Posts';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  contenedorPost: {
+    marginTop:'10rem'
+  },
+});
 const Post = () => {
+    const classes=useStyles();
     const [post,setPost]=useState(null);
     const router = useRouter();
     const { id } = router.query;
@@ -47,8 +55,10 @@ const Post = () => {
         <Layout>
             <CssBaseline />
                 <Container maxWidth="sm">
-                    <br/>
+                    <div className={classes.contenedorPost} >
                     <Posts key={post.idPost} post={post} />
+                    </div>
+                    
                 </Container>
             
         </Layout>

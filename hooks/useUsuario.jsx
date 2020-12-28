@@ -24,30 +24,6 @@ const useUsuario = idUsuario => {
                     }
                     
                 })
-                /*
-                await firebase.db.collection("usuarios").doc(id)
-                .get()
-                .then(doc =>{
-                    if (doc.exists) {
-                        const datos=doc.data();
-                        if(!desmontado){
-                            setUsuarioBuscado(datos); 
-                        }
-                                           
-                    } else {
-                        // doc.data() will be undefined in this case
-                        if(!desmontado){
-                            setErrorGetUsuario('El usuario no existe: ' + id);
-                        }
-                        
-                    }
-                })
-                .catch(function(error) {
-                    if(!desmontado){
-                        setErrorGetUsuario('No se pudo encontrar el usuario');
-                    }
-                    
-                });*/
             } catch (error) {
                 if(!desmontado){
                     setErrorGetUsuario('Hubo un error, intente más tarde');
@@ -56,16 +32,16 @@ const useUsuario = idUsuario => {
             }
         }
         if(idUsuario && !desmontado){
-            getInformacion(idUsuario);  
+           getInformacion(idUsuario);  
         }
-        
+        //getInformacion(idUsuario);  
         return () => {
             desmontado=true;
             ac.abort();
+            console.log('antes de entrar al unsuscribe' + unsuscribe);
             if(unsuscribe){
                 console.log('abortando desde useUsuario');
                 unsuscribe();
-                
             }
         } 
     },[idUsuario]);    

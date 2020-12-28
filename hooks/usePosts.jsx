@@ -5,6 +5,7 @@ const usePosts = () => {
     useEffect(()=>{
         const ac = new AbortController();
         let unsuscribe;
+        let desmontado=false;
         const getPosts=async()=>{
           try {
             unsuscribe=await firebase.db.collection('posts').orderBy('fecha', 'desc')
@@ -18,7 +19,10 @@ const usePosts = () => {
                   }
                   posts.push(post);
               });
-              setListaPosts(posts);
+              if(!desmontado){
+                setListaPosts(posts);
+              }
+              
             });
       
           } catch (error) {
@@ -28,6 +32,7 @@ const usePosts = () => {
         }
         getPosts();
         return () => {
+          desmontado=true;
           ac.abort();
           if(unsuscribe){
             console.log('desmontando desde usePosts');

@@ -2,6 +2,8 @@
 :root{
   --ligero: #ddeef5;
   --colorPrincipal:#3588a3;
+  --colorPrincipalTransparente:#3588a3cc;
+  --colorSecundarioTransparente:#845ec2a8;
   --colorSecundario:#845ec2;
   --fuentePrincipal:'Teko', sans-serif;
   --danger:rgb(253, 91, 91);

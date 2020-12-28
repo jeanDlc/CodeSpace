@@ -17,7 +17,8 @@ const useStyles = makeStyles(() => ({
   },
   titulo:{
     textAlign:'center',
-    color:'var(--colorPrincipal)'
+    color:'var(--colorPrincipal)',
+    marginTop:'7rem'
   },
 }));
 /**Componente principal******************************** */

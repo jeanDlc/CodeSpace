@@ -13,7 +13,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    marginTop:'2rem'
+    marginTop:'7rem'
   },
   paper: {
     padding: theme.spacing(2),
