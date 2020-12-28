@@ -5,7 +5,7 @@ import firebase, {FirebaseContext} from '../../firebase/index';
 import mostrarAlertas from '../../alertas';
 const LikePost = ({idPost,idUserLikes}) => { 
     const {usuario}=useContext(FirebaseContext);
-    const [colorLike, setColorLike]=useState("#444");
+    const [colorLike, setColorLike]=useState("var(--dark)");
     
     
     const useStyles = makeStyles((theme) => ({
@@ -20,7 +20,7 @@ const LikePost = ({idPost,idUserLikes}) => {
             }
         },
         cantLikes:{
-            color:'#444',
+            color:'var(--dark)',
             fontSize:'2rem',
             marginRight:'1rem',
             fontWeight:'bold'
@@ -42,7 +42,7 @@ const LikePost = ({idPost,idUserLikes}) => {
         if(usuario && idUserLikes.includes(usuario.usuario.uid)){
             setColorLike("var(--colorSecundario)");
         }else{
-            setColorLike("#444");
+            setColorLike("var(--dark)");
         }
     },[idUserLikes, usuario]);
     const marcarComoFavorito=async()=>{

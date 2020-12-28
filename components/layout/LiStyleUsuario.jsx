@@ -20,13 +20,13 @@ const useStyles = makeStyles(() => ({
       }
     },
     email:{
-      color:'#444',
+      color:'var(--dark)',
       
     },
     nombre:{
       fontWeight:'bold',
       fontSize:'1.8rem',
-      color:'#444',
+      color:'var(--dark)',
       transition:'all .3s ease-out',
       '&:hover':{
         color:'var(--colorSecundario)'

@@ -30,6 +30,7 @@ const usePosts = () => {
           }
           
         }
+        
         getPosts();
         return () => {
           desmontado=true;

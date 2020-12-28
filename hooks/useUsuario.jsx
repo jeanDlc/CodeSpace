@@ -38,7 +38,6 @@ const useUsuario = idUsuario => {
         return () => {
             desmontado=true;
             ac.abort();
-            console.log('antes de entrar al unsuscribe' + unsuscribe);
             if(unsuscribe){
                 console.log('abortando desde useUsuario');
                 unsuscribe();

@@ -13,7 +13,7 @@ const HeaderPerfil = ({nombre,id,urlFotoPortada,urlFotoPerfil,apellido}) => {
     /**Estilos de material ui*************************************** */
     const useStyles = makeStyles((theme) => ({
         fotoPortada: {
-          backgroundColor:'#444',
+          backgroundColor:'var(--dark)',
           height:'25vh',
           borderRadius:'0 0 1rem 1rem',
           backgroundImage:`url(${urlFotoPortada})`
@@ -54,7 +54,7 @@ const HeaderPerfil = ({nombre,id,urlFotoPortada,urlFotoPerfil,apellido}) => {
             fontFamily:'var(--fuentePrincipal)',
             marginTop:'0',
             marginBottom:'1rem',
-            color:'#444'
+            color:'var(--dark)'
         },
         iconoCamara:{
             textAlign:'center',
@@ -62,7 +62,7 @@ const HeaderPerfil = ({nombre,id,urlFotoPortada,urlFotoPerfil,apellido}) => {
             cursor:'pointer',
             '& svg':{
                 fontSize:'2.7rem',
-                color:'#444'
+                color:'var(--dark)'
             },
             '& svg:hover':{
                 color:'var(--colorSecundario)'
@@ -114,7 +114,7 @@ const HeaderPerfil = ({nombre,id,urlFotoPortada,urlFotoPerfil,apellido}) => {
           })
     }
     const actualizarPerfil=async (url,campo)=>{
-        console.log(`Agregar foto ${url} al storage al campo ${campo}`);
+        
         try {
             await firebase.db.collection('usuarios').doc(usuario.usuario.uid).update({
                 [campo]:url
@@ -126,7 +126,7 @@ const HeaderPerfil = ({nombre,id,urlFotoPortada,urlFotoPerfil,apellido}) => {
         }
     }
     const eliminarImagenDeStorage=async nombreImagen=>{
-        console.log(`Elimnar ${nombreImagen}`);
+
         try {
             await firebase.storage.ref(`userPhoto/${nombreImagen}`).delete().then(()=>{
                 console.log('Se eliminó de storage');

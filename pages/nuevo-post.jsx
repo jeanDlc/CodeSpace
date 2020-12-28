@@ -106,12 +106,15 @@ export default function NuevoPost() {
 
   /**Sube una imagen hacia firebase storage */
   const subirImagen=e=>{
+    if(!usuario){
+      router.push('/login');
+    }
     setLoading(true);
     if(e.target.files.length>=1){
       const imagen=e.target.files[0];
-      console.log(imagen);
+      
       try {
-        firebase.storage.ref(`postImagenes/${imagen.name}`).put(imagen).then(fileSnapshot=>{
+        firebase.storage.ref(`postImagenes/${usuario.usuario.uid}-${imagen.name}`).put(imagen).then(fileSnapshot=>{
           fileSnapshot.ref.getDownloadURL().then(url=>{
             setUrlImagen(url);
             setError(false);

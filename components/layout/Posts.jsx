@@ -27,11 +27,11 @@ const useStyles = makeStyles((theme) => ({
         fontWeight:'300'
     },
     descripcion:{
-        color:'#444',
+        color:'var(--dark)',
         margin:'0 0 1rem 0'
     },
     contenedorImagen:{
-        backgroundColor:'#444',
+        backgroundColor:'var(--dark)',
         display:'flex',
         justifyContent:'center',
         '& img':{
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems:'center',
         '& a':{
             marginLeft:'1rem',
-            color:'#444',
+            color:'var(--dark)',
             fontWeight:'bold',
             fontSize:'1.7rem'
         }

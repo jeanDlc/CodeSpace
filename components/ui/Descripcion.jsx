@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     },
     descripcion:{
         marginTop:'.5rem',
-        color:'#444',
+        color:'var(--dark)',
         fontWeight:'bold'
     }
   }));

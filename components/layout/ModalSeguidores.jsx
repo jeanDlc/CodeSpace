@@ -5,6 +5,7 @@ import firebase, {FirebaseContext} from '../../firebase/index';
 import LiStyleUsuario from './LiStyleUsuario';
 import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import LinearProgress from '@material-ui/core/LinearProgress';
 const useStyles = makeStyles((theme) => ({
     paper: {
         [theme.breakpoints.down('sm')]: {
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 const ModalSeguidores = () => {
     const {usuario}=useContext(FirebaseContext);
     const [seguidores,setSeguidores]=useState([]);
-    
+    const [loading, setLoading]=useState(false);
     
     const classes = useStyles();
     
@@ -54,6 +55,7 @@ const ModalSeguidores = () => {
 
     const handleOpen = () => {
         setOpen(true);
+        setLoading(true);
     };
 
     const handleClose = () => {
@@ -76,11 +78,13 @@ const ModalSeguidores = () => {
                     });
                     if(!desmontado){
                         setSeguidores(resultados);
+                        setLoading(false);
                     }
                 })
             
             } catch (error) {
                 console.log(error);
+                setLoading(false);
             }
         }
       if(usuario && open ){
@@ -117,6 +121,7 @@ const ModalSeguidores = () => {
                     <h2 className={classes.titulo} id="simple-modal-title" >
                         {seguidores.length}  Seguidores <FavoriteIcon/>
                     </h2>
+                    {loading && <LinearProgress />}
                     <ul>
                         {seguidores.map(seguidor=>(
                             <LiStyleUsuario usuario={seguidor} key={seguidor.idUsuario} />
