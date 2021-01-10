@@ -6,12 +6,12 @@ const useUsuario = idUsuario => {
     const [errorGetUsuario, setErrorGetUsuario]=useState('');
     
     useEffect(()=>{ 
-        const ac = new AbortController();
+        
         let desmontado=false;
         let unsuscribe;
-        const getInformacion=async(id)=>{
+        const getInformacion=(id)=>{
             try {
-                unsuscribe=await firebase.db.collection("usuarios").doc(id)
+                unsuscribe= firebase.db.collection("usuarios").doc(id)
                 .onSnapshot(doc=>{
                     const datos=doc.data();
                     if(!desmontado){
@@ -31,13 +31,12 @@ const useUsuario = idUsuario => {
                 
             }
         }
-        if(idUsuario && !desmontado){
-           getInformacion(idUsuario);  
+        if(idUsuario){
+           getInformacion(idUsuario);
         }
         //getInformacion(idUsuario);  
         return () => {
             desmontado=true;
-            ac.abort();
             if(unsuscribe){
                 console.log('abortando desde useUsuario');
                 unsuscribe();

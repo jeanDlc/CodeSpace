@@ -3,12 +3,12 @@ import firebase from '../firebase/index';
 const usePosts = () => {
     const [listaPosts, setListaPosts]=useState([]);
     useEffect(()=>{
-        const ac = new AbortController();
+        
         let unsuscribe;
         let desmontado=false;
-        const getPosts=async()=>{
+        const getPosts=()=>{
           try {
-            unsuscribe=await firebase.db.collection('posts').orderBy('fecha', 'desc')
+            unsuscribe=firebase.db.collection('posts').orderBy('fecha', 'desc')
             .onSnapshot(snapshot=>{
               let posts=[];
               //trae todos los documentos incluso cuando solo uno se actualiza
@@ -34,7 +34,7 @@ const usePosts = () => {
         getPosts();
         return () => {
           desmontado=true;
-          ac.abort();
+         
           if(unsuscribe){
             console.log('desmontando desde usePosts');
             unsuscribe();

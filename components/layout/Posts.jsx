@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import { formatDistance} from 'date-fns';
+import { es } from 'date-fns/locale/';
 import Link from 'next/link';
 import useUsuario from '../../hooks/useUsuario';
 import Avatar from '@material-ui/core/Avatar';
@@ -49,6 +51,13 @@ const useStyles = makeStyles((theme) => ({
             fontWeight:'bold',
             fontSize:'1.7rem'
         }
+    },
+    fecha:{
+        color:'#a0a0a0',
+        fontSize:'1.2rem',
+        lineHeight:'.5',
+        marginTop:'0',
+        marginBottom:'1rem'
     }
   }));
 /**Componente principal Post***************************************** */
@@ -76,9 +85,14 @@ const Posts = ({post}) => {
                 : null}
             
                 {url? (
-                    <h2 className={classes.tituloPost}>
-                        <a href={url} target="_blank" className={classes.tituloPost}>{titulo} </a>
-                    </h2>
+                    <>
+                        <h2 className={classes.tituloPost}>
+                            <a href={url} target="_blank" className={classes.tituloPost}>{titulo} </a>
+                        </h2>
+                        <p className={classes.fecha} >
+                            Hace {formatDistance(fecha, new Date(),{locale:es})} 
+                        </p>
+                    </>
                 ):
                     <h2 className={classes.tituloPost} >{titulo}</h2>
                 }

@@ -34,6 +34,11 @@ const useStyles = makeStyles((theme) => ({
       '& button':{
         fontSize:'1.2rem'
       }
+    },
+    iniciaSesion:{
+      color:'var(--colorSecundario)',
+      fontWeight:'bold',
+      fontSize:'1.7rem'
     }
   }));
   /**Componente ********************************************* */
@@ -45,7 +50,7 @@ const Sidebar = () => {
     if(!usuario) return (<aside>
           <Paper className={classes.paper}>
               <Link href="/login">
-                  <a>Inicia sesión</a>
+                  <a className={classes.iniciaSesion} >Inicia sesión</a>
               </Link>
           </Paper>
       </aside>)

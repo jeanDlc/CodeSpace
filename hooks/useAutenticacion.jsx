@@ -8,9 +8,9 @@ const useAutenticacion = () => {
         const ac = new AbortController();
         let unsuscribe;
         //trae información adicional del usuario, y lo guarda en el state
-        const getDatosAdicionales=async(usuario)=>{
+        const getDatosAdicionales=(usuario)=>{
           try {
-              unsuscribe=await firebase.db.collection("usuarios").doc(usuario.uid)
+              unsuscribe= firebase.db.collection("usuarios").doc(usuario.uid)
               .onSnapshot(doc =>{
                   const data=doc.data();
                   if(!desmontado){
@@ -29,9 +29,7 @@ const useAutenticacion = () => {
         firebase.auth.onAuthStateChanged(user=> {
           //obtiene al usuario autenticado
             if (user && !desmontado) {
-              //setUsuarioAutenticado(user);
               getDatosAdicionales(user);
-              //console.log(user);
             }else{
               if(!desmontado){
                 setUsuarioAutenticado(null);

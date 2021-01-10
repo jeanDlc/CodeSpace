@@ -40,7 +40,6 @@ const Descripcion = ({idUsuario, descripcion}) => {
     const cambiarDescripcion=async e=>{
         e.preventDefault();
         if(nuevaDescripcion.trim()==='') return;
-        console.log(nuevaDescripcion);
         try {
             await firebase.db.collection('usuarios').doc(`${idUsuario}`).update({
                 descripcion:nuevaDescripcion

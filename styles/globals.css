@@ -75,3 +75,12 @@ div:focus{
 .swal2-popup {
   font-size: 1.6rem !important;
 }
+::-moz-selection {
+  color: white;
+  background: var(--colorSecundario);
+}
+
+::selection {
+  color: white;
+  background: var(--colorSecundario);
+}

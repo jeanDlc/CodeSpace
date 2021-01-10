@@ -50,11 +50,11 @@ const Post = () => {
 
     useEffect(()=>{
         let desmontado=false;
-        const ac = new AbortController();
+        
         let unsuscribe;
         //obtiene todos los posts de un usuario
 
-        const obtenerPosts=async(idUsuario)=>{
+        const obtenerPosts=(idUsuario)=>{
             try {
                 
                 unsuscribe = firebase.db.collection('posts').where("idCreador", "==", idUsuario)
@@ -83,8 +83,6 @@ const Post = () => {
         }
         return () => {
             desmontado=true;
-            ac.abort();
-            console.log('desmontando desde usuario/[pid]');
             if(unsuscribe){
                 console.log('desmontando desde usuario/[pid]');
                 unsuscribe();

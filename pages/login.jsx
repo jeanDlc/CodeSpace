@@ -42,7 +42,6 @@ export default function Login() {
   const {
     errores,
     valores,
-    submitForm,
     handleChange,
     handleSubmit,
   }=useValidacion(STATE_INICIAL,validarLogin,logearUsuario);  
