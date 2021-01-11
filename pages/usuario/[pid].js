@@ -23,17 +23,20 @@ const useStyles = makeStyles((theme) => ({
         marginTop:'1rem'
     },
     contenedorInfo: {
-        backgroundColor:'var(--colorSecundario)',
         '& section':{
             padding: '1rem',
             borderRadius:'1.5rem',
             marginBottom:'1.5rem',
             display:'flex',
             justifyContent:'space-around',
-            color:'white',
-            flexWrap:'wrap'
+            color:'var(--dark)',
+            flexWrap:'wrap',
+            fontWeight:'bold'
         }
     },
+    mb:{
+        marginBottom:'1rem'
+    }
   }));
 const Post = () => {
     const theme = useTheme();
@@ -122,8 +125,17 @@ const Post = () => {
                             </p>
                         </section>
                     </Paper>
+                    {!bigScreen && (
+                        <div className={classes.mb} >
+                            <BtnSeguir 
+                                    idUsuario={pid} 
+                                    usuarioBuscado={usuarioBuscado}
+                            />
+                        </div>
+                    )}
                     <Descripcion idUsuario={pid} descripcion={usuarioBuscado.descripcion} />
                     
+
                     {postsUsuario.map(post=>(
                         <Posts key={post.idPost} post={post} />
                     ))}
