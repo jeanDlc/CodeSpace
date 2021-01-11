@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
       justifyContent:'space-between',
       '& a':{
           flexBasis:'calc(10% - 1.5rem)',
+          marginRight:'1rem'
 
       },
       '& form':{
