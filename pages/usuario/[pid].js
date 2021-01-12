@@ -17,21 +17,24 @@ import BtnSeguir from '../../components/ui/BtnSeguir';
 import Descripcion from '../../components/ui/Descripcion';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
+
 const useStyles = makeStyles((theme) => ({
     
     contenedorPerfil:{
         marginTop:'1rem'
     },
     contenedorInfo: {
+        backgroundColor: 'var(--colorPrincipal)',
+        background:'linear-gradient(90deg, rgba(53,136,163,1) 35%, rgba(132,94,194,1) 100%)',
         '& section':{
             padding: '1rem',
             borderRadius:'1.5rem',
             marginBottom:'1.5rem',
             display:'flex',
             justifyContent:'space-around',
-            color:'var(--dark)',
+            color:'white',
             flexWrap:'wrap',
-            fontWeight:'bold'
+            fontWeight:'bold',
         }
     },
     mb:{
@@ -49,7 +52,7 @@ const Post = () => {
     //el id de usuario que llega por get
     const { pid } = router.query;
     
-    const {usuarioBuscado, errorGetUsuario}=useUsuario(pid);
+    const {usuarioBuscado}=useUsuario(pid);
 
     useEffect(()=>{
         let desmontado=false;
@@ -121,7 +124,7 @@ const Post = () => {
                                 Publicaciones: {postsUsuario.length} 
                             </p>
                             <p>
-                                Seguidos {usuarioBuscado.idUserSeguidos.length} <FavoriteIcon/>
+                                Seguidos: {usuarioBuscado.idUserSeguidos.length} <FavoriteIcon/>
                             </p>
                         </section>
                     </Paper>
@@ -134,7 +137,6 @@ const Post = () => {
                         </div>
                     )}
                     <Descripcion idUsuario={pid} descripcion={usuarioBuscado.descripcion} />
-                    
 
                     {postsUsuario.map(post=>(
                         <Posts key={post.idPost} post={post} />

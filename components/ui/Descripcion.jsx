@@ -55,7 +55,7 @@ const Descripcion = ({idUsuario, descripcion}) => {
     useEffect(()=>{
         setDescripcionEnPantalla(descripcion);
     },[descripcion]);
-    if(!usuario) return <p>Loading...</p>
+    if(!usuario) return null;
     return ( 
         <>
             <Paper>
